@@ -1,0 +1,400 @@
+genus	species	subspecies	publication	ID	single_body	minimum_body	maximum_body	mean_body	deviation_body	order	measurement_type
+Stenobothrus	lineatus		waloff1954number	96	22.5					Orthoptera	body_length
+Stenobothrus	grammicus		waloff1954number	115	24					Orthoptera	body_length
+Stenobothrus	nigromaculatus		waloff1954number	138	22.5					Orthoptera	body_length
+Omocestus	viridulus		waloff1954number	139	22					Orthoptera	body_length
+Omocestus	ventralis		waloff1954number	169	19					Orthoptera	body_length
+Omocestus	haemorrhoidalis		waloff1954number	170	17.5					Orthoptera	body_length
+Omocestus	raymondi		waloff1954number	176	22					Orthoptera	body_length
+Stauroderus	scalaris		waloff1954number	187	27					Orthoptera	body_length
+Chorthippus	brunneus		waloff1954number	240	19.5					Orthoptera	body_length
+Chorthippus	mollis		waloff1954number	259	17.5					Orthoptera	body_length
+Chorthippus	biguliulus		waloff1954number	268	18.5					Orthoptera	body_length
+Chorthippus	vagans		waloff1954number	269	19					Orthoptera	body_length
+Chorthippus	albomarginatus		waloff1954number	271	19.5					Orthoptera	body_length
+Chorthippus	parallelus		waloff1954number	272	20					Orthoptera	body_length
+Chorthippus	montanus		waloff1954number	281	20					Orthoptera	body_length
+Chorthippus	dorsatus		waloff1954number	283	22.5					Orthoptera	body_length
+Euchorthippus	elegantulus		waloff1954number	286	20					Orthoptera	body_length
+Euchorthippus	pulvinatus		waloff1954number	293	22.5					Orthoptera	body_length
+Gomphocerippus	rufus		waloff1954number	294	20.5					Orthoptera	body_length
+Gomphocerippus	brevipennis		waloff1954number	295	20					Orthoptera	body_length
+Gomphocerippus	sibiricus		waloff1954number	298	22					Orthoptera	body_length
+Aeropedullus	clavatus		waloff1954number	299	22					Orthoptera	body_length
+Myrmeleottetix	maculatus		waloff1954number	312	14					Orthoptera	body_length
+Apoderus	rubidus		iwata1966large	326	3.2					Coleoptera	elytra_length
+Apoderus	balteatus		iwata1966large	327	3.44					Coleoptera	elytra_length
+Cycnotrachelus	nitens		iwata1966large	332	3.69					Coleoptera	elytra_length
+Apoderus	erythrogaster		iwata1966large	333	2.95					Coleoptera	elytra_length
+Paratrachelophorus	longicornis		iwata1966large	334	4.18					Coleoptera	elytra_length
+Phymatapoderus	pavens		iwata1966large	335	3.81					Coleoptera	elytra_length
+Involvulus	pilosus		iwata1966large	336	2.95					Coleoptera	elytra_length
+Paraplapoderus	pardalis		iwata1966large	337	4.92					Coleoptera	elytra_length
+Aspidobystischus	lacunipennis		iwata1966large	338	3.08					Coleoptera	elytra_length
+Dociostaurus	maroccanus		waloff1954number	339	33					Coleoptera	body_length
+Apoderus	jekelii		iwata1966large	340	5.04					Coleoptera	elytra_length
+Euops	splendida		iwata1966large	341	5.23					Coleoptera	elytra_length
+Phialodes	rufiepnnis		iwata1966large	342	3.94					Coleoptera	elytra_length
+Byctiscus	venustus		iwata1966large	343	1.85					Coleoptera	elytra_length
+Auletobius	uniformis		iwata1966large	344	6.15					Coleoptera	elytra_length
+Rhynchites	heros		iwata1966large	345	4.42					Coleoptera	elytra_length
+Aderorrhinus	crioceroides		iwata1966large	346	1.23					Coleoptera	elytra_length
+Sitophlus	oryzae		iwata1966large	347	1.72					Coleoptera	elytra_length
+Sitophilus	zeamais		iwata1966large	348	12					Coleoptera	elytra_length
+Hyposipalus	gigas		iwata1966large	349	2.95					Coleoptera	elytra_length
+Cylas	formicarius		iwata1966large	350		2.95	3.26			Coleoptera	elytra_length
+Duroneilla	lucasi		waloff1954number	351	25.5					Coleoptera	body_length
+Larinus	latissimus		iwata1966large	352	4.61					Coleoptera	elytra_length
+Mecysmoderes	fulvus		iwata1966large	353	2.09					Coleoptera	elytra_length
+Anthonomus	bisignifer		iwata1966large	354	1.85					Coleoptera	elytra_length
+Echinocnemis	squimeus		iwata1966large	355	3.08					Coleoptera	elytra_length
+Mecyslobus	erro		iwata1966large	356	5.78					Coleoptera	elytra_length
+Caenocrypterrhynchus	frontalis		iwata1966large	357	4.61					Coleoptera	elytra_length
+Arcyptera	jusca		waloff1954number	358	34.5					Coleoptera	body_length
+Catapionus	modestus		iwata1966large	359	4.8					Coleoptera	elytra_length
+Lixus	ocutipennis		iwata1966large	360		7.5	7.8			Coleoptera	elytra_length
+Okikuruminus	oblongus		iwata1966large	361	6.46					Coleoptera	elytra_length
+Chyroschraon	dispar		waloff1954number	362	24					Coleoptera	body_length
+Hylobius	freyi		iwata1966large	363		10.2	10.5			Coleoptera	elytra_length
+Myllocerus	griseus		iwata1966large	364	3.38					Coleoptera	elytra_length
+Episomus	turritus		iwata1966large	365	9.69					Coleoptera	elytra_length
+Phyllobius	armatus		iwata1966large	366	5.9					Coleoptera	elytra_length
+Dermatoxenus	caesicollis		iwata1966large	367	8.1					Coleoptera	elytra_length
+Eugnathus	distinctus		iwata1966large	368	4.74					Coleoptera	elytra_length
+Pissodes	galloisi		iwata1966large	369	8.1					Coleoptera	elytra_length
+Acrida			waloff1954number	406	66.5					Orthoptera	body_length
+Euthystira	brachyptera		waloff1954number	445	15					Orthoptera	body_length
+Gymnobothrus	temporalis		waloff1954number	524	31					Orthoptera	body_length
+Pnorisa	fasciatipes		waloff1954number	531	26					Orthoptera	body_length
+Pnorisa	squalus		waloff1954number	537	25					Orthoptera	body_length
+Mesopsis	laticornis		waloff1954number	553	62.5					Orthoptera	body_length
+Aulocobothrus	wernerianus		waloff1954number	561	22.5					Orthoptera	body_length
+Paracinema	tricolor		waloff1954number	629	34.5					Orthoptera	body_length
+Mecostethus	grossus		waloff1954number	633	32.5					Orthoptera	body_length
+Aiolopus	strepens		waloff1954number	634	24.5					Orthoptera	body_length
+Aiolopus	thalassinus		waloff1954number	641	22					Orthoptera	body_length
+Oedipoda	coerulescens		waloff1954number	653	25					Orthoptera	body_length
+Oedipoda	germanica		waloff1954number	654	25.5					Orthoptera	body_length
+Psophus	stridulus		waloff1954number	666	24					Orthoptera	body_length
+Sphingonotus	insularis		waloff1954number	684	23.5					Orthoptera	body_length
+Sphingonotus	scubriculus		waloff1954number	691	26					Orthoptera	body_length
+Trilophidia	angustipennis		waloff1954number	695	18					Orthoptera	body_length
+Locusta	migratoria		waloff1954number	703	48.5					Orthoptera	body_length
+Acrotylus	insubricus		waloff1954number	780	22					Orthoptera	body_length
+Acrotylus	angulatus		waloff1954number	800		17	19.5			Orthoptera	body_length
+Acrotylus	hottentotus		waloff1954number	801	19					Orthoptera	body_length
+Acrotylus	patruelis		waloff1954number	805		19	25			Orthoptera	body_length
+Acrotylus	variegatus		waloff1954number	808	20					Orthoptera	body_length
+Acrotylus	deustus		waloff1954number	811	20					Orthoptera	body_length
+Acrotylus	junodi		waloff1954number	825	22					Orthoptera	body_length
+Humbe	tenuicornis		waloff1954number	828	35					Orthoptera	body_length
+Morphacris	fasciata		waloff1954number	829	30					Orthoptera	body_length
+Heteropternis	thoracica		waloff1954number	843	25					Orthoptera	body_length
+Anaiolopus	socius		waloff1954number	873	18.5					Orthoptera	body_length
+Oedaleus	nigrofasciatus		waloff1954number	874	25					Orthoptera	body_length
+Oedaleus	carvalhio		waloff1954number	876	21					Orthoptera	body_length
+Oedaleus	decorus		waloff1954number	884	32.5					Orthoptera	body_length
+Xanthippus	corallipes		waloff1954number	886	36					Orthoptera	body_length
+Pyrgomorpha	cypria		waloff1954number	888	23.5					Orthoptera	body_length
+Dictoyphorus	spumans		waloff1954number	901	58					Orthoptera	body_length
+Pezotettix	giornae		waloff1954number	922	46.5					Orthoptera	body_length
+Anacridium	aegyptium		waloff1954number	925	15					Orthoptera	body_length
+Podisma	pedestris		waloff1954number	926	58					Orthoptera	body_length
+Podisma	alpina		waloff1954number	938	26					Orthoptera	body_length
+Cophopodisma	pyrenaea		waloff1954number	939	27					Orthoptera	body_length
+Calliptamus	italicus		waloff1954number	941	20					Orthoptera	body_length
+Calliptamus	ictericus		waloff1954number	947	28.5					Orthoptera	body_length
+Paracaloptenus	bolivari		waloff1954number	956	30					Orthoptera	body_length
+Romalea	microptera		waloff1954number	968	74.5					Orthoptera	body_length
+Tylotropidius	speciosus		waloff1954number	969	45					Orthoptera	body_length
+Bryophyma	debilis		waloff1954number	970	43					Orthoptera	body_length
+Acanthacris	ruficornis		waloff1954number	976		57	71			Orthoptera	body_length
+Spathosternum	prasiniferum		waloff1954number	977	22					Orthoptera	body_length
+Abisaris	viridipennis		waloff1954number	979	39					Orthoptera	body_length
+Acanthoxia	gladiator		waloff1954number	985	85					Orthoptera	body_length
+Catantops	adustus		waloff1954number	986	47					Orthoptera	body_length
+Catantops	melanostictus		waloff1954number	987		24.5	33			Orthoptera	body_length
+Catantops	saucius		waloff1954number	988	40					Orthoptera	body_length
+Coptacra	torquata		waloff1954number	989	22					Orthoptera	body_length
+Nomadacris	septemfasciata		waloff1954number	990	62.5					Orthoptera	body_length
+Melanoplus	bivittatus		waloff1954number	1007	42.5					Orthoptera	body_length
+Schistocerca	gregaria		waloff1954number	1008	58					Orthoptera	body_length
+Tetrix	subulata		waloff1954number	1009	9.5					Orthoptera	body_length
+tetrix	vittata		waloff1954number	1010	9.5					Orthoptera	body_length
+Tetrix	kraussi		waloff1954number	1020	9.5					Orthoptera	body_length
+Colletes	patellatus		Iwata1966a	1127	4					Hymenoptera	mesosoma_width
+Hylaeus	perforatus		Iwata1966a	1128	2.1					Hymenoptera	mesosoma_width
+Panurginus	crawfordi		Iwata1966a	1129	2.2					Hymenoptera	mesosoma_width
+Andrena	nawai		Iwata1966a	1130	4.2					Hymenoptera	mesosoma_width
+Andrena	watasei		Iwata1966a	1131	3.4					Hymenoptera	mesosoma_width
+Andrena	valeriana		Iwata1966a	1132	3.6					Hymenoptera	mesosoma_width
+Andrena	sublevigatus		Iwata1966a	1133	2.1					Hymenoptera	mesosoma_width
+Nomia	puctata		Iwata1966a	1134	3.8					Hymenoptera	mesosoma_width
+Sphecodes	esakii		Iwata1966a	1140	2.5					Hymenoptera	mesosoma_width
+Lasioglossum	scitulum		Iwata1966a	1141	2.6					Hymenoptera	mesosoma_width
+Lasioglossum	occidens		Iwata1966a	1142	3.4					Hymenoptera	mesosoma_width
+Lasioglossum	esoensis		Iwata1966a	1143	3					Hymenoptera	mesosoma_width
+Lasioglossum	discrepans		Iwata1966a	1144	2.7					Hymenoptera	mesosoma_width
+Lasioglossum	laeviventris		Iwata1966a	1145	2.7					Hymenoptera	mesosoma_width
+Lasioglossum	duplex		Iwata1966a	1146	2.5					Hymenoptera	mesosoma_width
+Lasioglossum	trispine		Iwata1966a	1147	2.1					Hymenoptera	mesosoma_width
+Lasioglossum	apristis		Iwata1966a	1150	2.2					Hymenoptera	mesosoma_width
+Lasioglossum	pallidulum		Iwata1966a	1151	2.2					Hymenoptera	mesosoma_width
+Halictus	tumulorum		Iwata1966a	1152	1.9					Hymenoptera	mesosoma_width
+Paroxystoglossa	jocasta		Iwata1966a	1153	2.5					Hymenoptera	mesosoma_width
+Augochlora	semiramis		Iwata1966a	1154	1.9					Hymenoptera	mesosoma_width
+Megammation	insigne		Iwata1966a	1157	3.8					Hymenoptera	mesosoma_width
+Augochloropsis	sparsilis		Iwata1966a	1158	3.4					Hymenoptera	mesosoma_width
+Megachile	sculpturalis		Iwata1966a	1159	7.1					Hymenoptera	mesosoma_width
+Megachile	nipponica		Iwata1966a	1160	4.5					Hymenoptera	mesosoma_width
+Megachile	japonica		Iwata1966a	1161	4.8					Hymenoptera	mesosoma_width
+Megachile	kobensis		Iwata1966a	1162	4.2					Hymenoptera	mesosoma_width
+Megachile	subalbuta		Iwata1966a	1163	4.2					Hymenoptera	mesosoma_width
+Megachile	tsurugensis		Iwata1966a	1164	4.4					Hymenoptera	mesosoma_width
+Megachile	humilis		Iwata1966a	1165	6.2					Hymenoptera	mesosoma_width
+Osmia	pedicornis		Iwata1966a	1166	4.8					Hymenoptera	mesosoma_width
+Osmia	cornifrons		Iwata1966a	1167	3.8					Hymenoptera	mesosoma_width
+Osmia	taurus		Iwata1966a	1168	4.2					Hymenoptera	mesosoma_width
+Osmia	orientalis		Iwata1966a	1169	3.8					Hymenoptera	mesosoma_width
+Coelioxys	fenestratus		Iwata1966a	1170	4.8					Hymenoptera	mesosoma_width
+Coelioxys	vrevis		Iwata1966a	1171	3.3					Hymenoptera	mesosoma_width
+Euaspis	basalis		Iwata1966a	1172	5.7					Hymenoptera	mesosoma_width
+Xylocopa	latipes		Iwata1966a	1173	12					Hymenoptera	mesosoma_width
+Xylocopa	appendiculata		Iwata1966a	1174	9.1					Hymenoptera	mesosoma_width
+Xylocopa	tranquebarorum		Iwata1966a	1175	7.9					Hymenoptera	mesosoma_width
+Xylocopa	auripennis		Iwata1966a	1176	9.6					Hymenoptera	mesosoma_width
+Allodapula	sauteriella		Iwata1966a	1177	1.5					Hymenoptera	mesosoma_width
+Ceratina	flavipes		Iwata1966a	1178	1.9					Hymenoptera	mesosoma_width
+Ceratina	japonica		Iwata1966a	1179	2.2					Hymenoptera	mesosoma_width
+Ceratina	unicolor		Iwata1966a	1180	3.3					Hymenoptera	mesosoma_width
+Anthophora	acervorum		Iwata1966a	1181	6					Hymenoptera	mesosoma_width
+Anthophora	florea		Iwata1966a	1182	6.2					Hymenoptera	mesosoma_width
+Anthophora	paranensis		Iwata1966a	1183	5					Hymenoptera	mesosoma_width
+Ptilothrix	plumata		Iwata1966a	1184	4					Hymenoptera	mesosoma_width
+Tetrapedia	maura		Iwata1966a	1185	3					Hymenoptera	mesosoma_width
+Tetralonia	nipponensis		Iwata1966a	1186	5.5					Hymenoptera	mesosoma_width
+Tetralonia	mitsukuri		Iwata1966a	1187	4.1					Hymenoptera	mesosoma_width
+Epeolus	japonicus		Iwata1966a	1188	3.4					Hymenoptera	mesosoma_width
+Thyreus	japonicus		Iwata1966a	1189	5.4					Hymenoptera	mesosoma_width
+Nomada	japonica		Iwata1966a	1190	3.6					Hymenoptera	mesosoma_width
+Nomada	pyrifera		Iwata1966a	1191	2.4					Hymenoptera	mesosoma_width
+Nomada	okamotonis		Iwata1966a	1192	2.4					Hymenoptera	mesosoma_width
+Euglossa	imperialis		Iwata1966a	1194	5.7					Hymenoptera	mesosoma_width
+Bombus	diversus		Iwata1966a	1195	8					Hymenoptera	mesosoma_width
+Bombus	atratus		Iwata1966a	1196	8.5					Hymenoptera	mesosoma_width
+Melipona	quadrifasciata		Iwata1966a	1197	3.7					Hymenoptera	mesosoma_width
+Melipona	scutellaris		Iwata1966a	1198	3.6					Hymenoptera	mesosoma_width
+Melipona	seminigra		Iwata1966a	1199	3.7					Hymenoptera	mesosoma_width
+Melipona	nigra		Iwata1966a	1200	4.7					Hymenoptera	mesosoma_width
+Melipona	favosa		Iwata1966a	1201	2.8					Hymenoptera	mesosoma_width
+Melipona	marginata		Iwata1966a	1202	2.6					Hymenoptera	mesosoma_width
+Meliponula	bocandei		Iwata1966a	1203	4.1					Hymenoptera	mesosoma_width
+Plebeia	droryana		Iwata1966a	1204	1.8					Hymenoptera	mesosoma_width
+Plebeia	emerina		Iwata1966a	1205	2.1					Hymenoptera	mesosoma_width
+Plebeia	schrottkyi		Iwata1966a	1206	1.6					Hymenoptera	mesosoma_width
+Plebeia	quadripunctata		Iwata1966a	1208	2.9					Hymenoptera	mesosoma_width
+Trigona	spinipes		Iwata1966a	1209	3.4					Hymenoptera	mesosoma_width
+Trigona	ghiliani		Iwata1966a	1211	3.2					Hymenoptera	mesosoma_width
+Nannotrigona	postica		Iwata1966a	1212	3.2					Hymenoptera	mesosoma_width
+Nannotrigona	bipunctata		Iwata1966a	1213	3					Hymenoptera	mesosoma_width
+Hypotrigona	araujoi		Iwata1966a	1214	1.4					Hymenoptera	mesosoma_width
+Axestotrigona	ferruginea		Iwata1966a	1215	3.1					Hymenoptera	mesosoma_width
+Apis	mellifera		Iwata1966a	1216	4.7					Hymenoptera	mesosoma_width
+Aiolopus	thalassinus		reinhardt2005low	2000	25					Orthoptera	body_length
+Arcyptera	fusca		reinhardt2005low	2001	35					Orthoptera	body_length
+Bryodemella	tuberculata		reinhardt2005low	2002	34					Orthoptera	body_length
+Calliptamus	italicus		reinhardt2005low	2003	23					Orthoptera	body_length
+Chorthippus	albomarginatus		reinhardt2005low	2004	20					Orthoptera	body_length
+Chorthippus	dorsatus		reinhardt2005low	2005	23					Orthoptera	body_length
+Chorthippus	montanus		reinhardt2005low	2006	20					Orthoptera	body_length
+Chorthippus	parallelus		reinhardt2005low	2007	20					Orthoptera	body_length
+Chorthippus	apricarius		reinhardt2005low	2008	19					Orthoptera	body_length
+Chorthippus	biguttulus		reinhardt2005low	2009	20					Orthoptera	body_length
+Chorthippus	brunneus		reinhardt2005low	2010	22					Orthoptera	body_length
+Chorthippus	mollis		reinhardt2005low	2011	18					Orthoptera	body_length
+Chorthippus	pullus		reinhardt2005low	2012	20					Orthoptera	body_length
+Chorthippus	vagans		reinhardt2005low	2013	19					Orthoptera	body_length
+Chrsochraon	dispar		reinhardt2005low	2014	26					Orthoptera	body_length
+Conocephalus	fuscus		reinhardt2005low	2015	20					Orthoptera	body_length
+Conocephalus	dorsalis		reinhardt2005low	2016	18					Orthoptera	body_length
+Decticus	verrucivorus		reinhardt2005low	2017	44					Orthoptera	body_length
+Ephippiger	ephippiger		reinhardt2005low	2018	30					Orthoptera	body_length
+Euthystira	brachyptera		reinhardt2005low	2019	22					Orthoptera	body_length
+Gampsocleis	glabra		reinhardt2005low	2020	27					Orthoptera	body_length
+Gomphocerippus	rufus		reinhardt2005low	2021	21					Orthoptera	body_length
+Gomphocerus	sibiricus		reinhardt2005low	2022	22					Orthoptera	body_length
+Grylloptalpa	gryllotalpa		reinhardt2005low	2023	50					Orthoptera	body_length
+Gryllus	campestris		reinhardt2005low	2024	26					Orthoptera	body_length
+Isophya	kraussii		reinhardt2005low	2025	26					Orthoptera	body_length
+Leptophyes	albovittata		reinhardt2005low	2026	16					Orthoptera	body_length
+Leptophyes	punctatitissima		reinhardt2005low	2027	17					Orthoptera	body_length
+Meconema	thalassinum		reinhardt2005low	2028	15					Orthoptera	body_length
+Mecosthetus	parapleurus		reinhardt2005low	2029	30					Orthoptera	body_length
+Metrioptera	bicolor		reinhardt2005low	2030	18					Orthoptera	body_length
+Metrioptera	brachyptera		reinhardt2005low	2031	18					Orthoptera	body_length
+Metrioptera	roeselii		reinhardt2005low	2032	18					Orthoptera	body_length
+Miramella	alpina		reinhardt2005low	2033	27					Orthoptera	body_length
+Modicogryllus	frontalis		reinhardt2005low	2034	13					Orthoptera	body_length
+Myrmecophilus	acervorum		reinhardt2005low	2035	3					Orthoptera	body_length
+Myrmeleotettix	maculatus		reinhardt2005low	2036	16					Orthoptera	body_length
+Nemobius	sylvestris		reinhardt2005low	2037	10					Orthoptera	body_length
+Oecanthus	pellucens		reinhardt2005low	2038	15					Orthoptera	body_length
+Oedipoda	caerulescens		reinhardt2005low	2039	25					Orthoptera	body_length
+Oedipoda	germanica		reinhardt2005low	2040	26					Orthoptera	body_length
+Omocestus	haemorrhoidalis		reinhardt2005low	2041	18					Orthoptera	body_length
+Omocestus	rufipes		reinhardt2005low	2042	20					Orthoptera	body_length
+Omocestus	viridulus		reinhardt2005low	2043	22					Orthoptera	body_length
+Phaneroptera	falcata		reinhardt2005low	2044	20					Orthoptera	body_length
+Pholidoptera	aptera		reinhardt2005low	2045	25					Orthoptera	body_length
+Pholidoptera	griseoaptera		reinhardt2005low	2046	18					Orthoptera	body_length
+Platycleis	montana		reinhardt2005low	2047	19					Orthoptera	body_length
+Platycleis	albopunctata		reinhardt2005low	2048	24					Orthoptera	body_length
+Platycleis	tessellata		reinhardt2005low	2049	16					Orthoptera	body_length
+Podisma	pedestris		reinhardt2005low	2050	26					Orthoptera	body_length
+Polysarcus	denticauda		reinhardt2005low	2051	40					Orthoptera	body_length
+Psophus	stridulus		reinhardt2005low	2052	33					Orthoptera	body_length
+Pteronemobius	heydenii		reinhardt2005low	2053	7					Orthoptera	body_length
+Sphingonotus	caerulans		reinhardt2005low	2054	26					Orthoptera	body_length
+Stauroderis	scalaris		reinhardt2005low	2055	25					Orthoptera	body_length
+Stenobothrus	lineatus		reinhardt2005low	2056	24					Orthoptera	body_length
+Stenobothrus	nigromaculatus		reinhardt2005low	2057	22					Orthoptera	body_length
+Stenobothrus	stigmaticus		reinhardt2005low	2058	18					Orthoptera	body_length
+Stethophyma	grossum		reinhardt2005low	2059	33					Orthoptera	body_length
+Tetrix	bipuncta		reinhardt2005low	2060	12					Orthoptera	body_length
+Tetrix	subulata		reinhardt2005low	2061	17					Orthoptera	body_length
+Tetrix	tenuicornis		reinhardt2005low	2062	12.5					Orthoptera	body_length
+Tetrix	tuerki		reinhardt2005low	2063	14					Orthoptera	body_length
+Tetrix	undulata		reinhardt2005low	2064	12					Orthoptera	body_length
+Tettigonia	cantans		reinhardt2005low	2065	32					Orthoptera	body_length
+Tettigonia	viridissima		reinhardt2005low	2066	42					Orthoptera	body_length
+Oxelytrum	discicolle		ikeda2008evolutionary	2067	2.31					Coleoptera	body_length
+Diamesus	osculans		ikeda2008evolutionary	2068	3.95					Coleoptera	body_length
+Necrodes	littoralis		ikeda2008evolutionary	2069				2.29	0.197	Coleoptera	body_length
+Necrodes	nigricornis		ikeda2008evolutionary	2070				1.87	0.171	Coleoptera	body_length
+Thanatophilus	rugosus		ikeda2008evolutionary	2071				1.25	0.057	Coleoptera	body_length
+Thanatophilus	sinuatus		ikeda2008evolutionary	2072				1.36	0.347	Coleoptera	body_length
+Oiceoptoma	nigropunctatum		ikeda2008evolutionary	2073				1.49	0.067	Coleoptera	body_length
+Oiceoptoma	subrufum		ikeda2008evolutionary	2074				1.58	0.086	Coleoptera	body_length
+Oiceoptoma	thoracicum		ikeda2008evolutionary	2075				1.66	0.106	Coleoptera	body_length
+Necrophila	americana		ikeda2008evolutionary	2076				2.13	0.101	Coleoptera	body_length
+Chrysosilpha	chloroptera		ikeda2008evolutionary	2077				1.75	0.184	Coleoptera	body_length
+Calosilpha	brunnicollis		ikeda2008evolutionary	2078				2.25	0.099	Coleoptera	body_length
+Calosilpha	kurosawai		ikeda2008evolutionary	2079				2.119	0.141	Coleoptera	body_length
+Eusilpha	jakowlewi		ikeda2008evolutionary	2080				2.17	0.081	Coleoptera	body_length
+Eusilpha	japonica		ikeda2008evolutionary	2081				2.36	0.076	Coleoptera	body_length
+Eusilpha	japonica		ikeda2008evolutionary	2082				2.45	0.173	Coleoptera	body_length
+Dendroxena	sexcarinata		ikeda2008evolutionary	2083				1.7	0.107	Coleoptera	body_length
+Phosphuga	atrata		ikeda2008evolutionary	2084				1.62	0.15	Coleoptera	body_length
+Silpha	tristis		ikeda2008evolutionary	2085				1.66	0.119	Coleoptera	body_length
+Silpha	perforata		ikeda2008evolutionary	2086				2.2	0.198	Coleoptera	body_length
+Silpha	longicornis		ikeda2008evolutionary	2087				1.92	0.124	Coleoptera	body_length
+Silpha	imitator		ikeda2008evolutionary	2088				2.04	0.097	Coleoptera	body_length
+Scaptomyza	caliginosa		starmer2003phylogenetic	3000				0.93	0.078		
+Scaptomyza	mauiensis		starmer2003phylogenetic	3001				0.87	0.034		
+Scaptomyza	oahuensis		starmer2003phylogenetic	3002				0.86	0.042		
+Scaptomyza	throckmortoni		starmer2003phylogenetic	3003				0.84	0.059		
+Scaptomyza	undulata		starmer2003phylogenetic	3004				2	0.078		
+Scaptomyza	nasalis		starmer2003phylogenetic	3005				1.9	0.342		
+Scaptomyza	reducta		starmer2003phylogenetic	3006				1.68	0.15		
+Scaptomyza	crassifemur		starmer2003phylogenetic	3007				2.06	0.292		
+Scaptomyza	infiatus		starmer2003phylogenetic	3008				1.69	0.025		
+Drosophila	villosus		starmer2003phylogenetic	3009				2.92	0.087		
+Drosophila	aduncus		starmer2003phylogenetic	3010				2.94	0.119		
+Drosophila			starmer2003phylogenetic	3011				2.33	0.129		
+Drosophila	diamphidiopodus		starmer2003phylogenetic	3012				2.28	0.131		
+Drosophila	prodita		starmer2003phylogenetic	3013				1.37	0.138		
+Drosophila	trichetosa		starmer2003phylogenetic	3014				1.35	0.096		
+Drosophila	disticha		starmer2003phylogenetic	3015				1.45	0.101		
+Drosophila	pectinitarsus		starmer2003phylogenetic	3016				1.26	0.028		
+Drosophila	kambysellisi		starmer2003phylogenetic	3017				1.51	0.076		
+Drosophila	petalopeza		starmer2003phylogenetic	3018				1.75	0.072		
+Drosophila	mimica		starmer2003phylogenetic	3019				1.78	0.184		
+Drosophila	primaeva		starmer2003phylogenetic	3020				3	0.124		
+Drosophila	attigua		starmer2003phylogenetic	3021				2.67	0.063		
+Drosophila	setosimentum		starmer2003phylogenetic	3022				2.13	0.086		
+Drosophila	adiastola		starmer2003phylogenetic	3023				2.41	0.092		
+Drosophila	truncipenna		starmer2003phylogenetic	3024				3.22	0.129		
+Drosophila	clavisetae		starmer2003phylogenetic	3025				2.71	0.114		
+Drosophila	picticornis		starmer2003phylogenetic	3026				1.77	0.098		
+Drosophila	melanocephala		starmer2003phylogenetic	3027				3.31	0.342		
+Drosophila	silvestris		starmer2003phylogenetic	3028				3.16	0.129		
+Drosophila	nigribasis		starmer2003phylogenetic	3029				2.98	0.305		
+Drosophila	pilimana		starmer2003phylogenetic	3030				2.19	0.167		
+Drosophila	fasciculisetae		starmer2003phylogenetic	3031				2.65	0.222		
+Drosophila	punalua		starmer2003phylogenetic	3032				2.3	0.136		
+Drosophila	crucigera		starmer2003phylogenetic	3033				2.09	0.188		
+Drosophila	engyochracea		starmer2003phylogenetic	3034				2.48	0.115		
+Drosophila	sproati		starmer2003phylogenetic	3035				2.78	0.149		
+Drosophila	sejuncta		starmer2003phylogenetic	3036				2.24	0.212		
+Drosophila	ochracea		starmer2003phylogenetic	3037				2.4	0.096		
+Drosophila	murphyi		starmer2003phylogenetic	3038				2.43	0.119		
+Drosophila	villosipedis		starmer2003phylogenetic	3039				2.09	0.144		
+Drosophila	preapicala		starmer2003phylogenetic	3040	1.2						
+Drosophila	ananasse		starmer2003phylogenetic	3041				0.86	0.053		
+Drosophila	bipectinata		starmer2003phylogenetic	3042				0.92	0.058		
+Drosophila	ficusphila		starmer2003phylogenetic	3043				0.95	0.086		
+Drosophila	flavohirta		starmer2003phylogenetic	3044				0.82	0.075		
+Drosophila	pseudotetrachaeta		starmer2003phylogenetic	3045				1.26	0.068		
+Drosophila	sulfurigaster		starmer2003phylogenetic	3046				1.24	0.096		
+Hirtodrosophila	hannae		starmer2003phylogenetic	3047				1.31	0.088		
+Hirtodrosophila	hirudo		starmer2003phylogenetic	3048				1.1	0.047		
+Hirtodrosophila	laurelae		starmer2003phylogenetic	3049	1.13						
+Hirtodrosophila	mixtura		starmer2003phylogenetic	3050				1.11	0.125		
+Hirtodrosophila	polypori		starmer2003phylogenetic	3051				1.07	0.114		
+Hirtodrosophila	trifurca		starmer2003phylogenetic	3052				1.14	0.042		
+Mycodrosophila	boudinoti		starmer2003phylogenetic	3053				0.93	0.094		
+Mycodrosophila	cfboudinoti		starmer2003phylogenetic	3054				0.73	0.043		
+Mycodrosophila	cfminor		starmer2003phylogenetic	3055				1.06	0.06		
+Microdrosophila	elator		starmer2003phylogenetic	3056				0.81	0.039		
+Mycodrosophila	minor		starmer2003phylogenetic	3057				1.11	0.055		
+Zygothrica	samoensis		starmer2003phylogenetic	3058				1.04	0.117		
+Scaptodrosophila	bryani		starmer2003phylogenetic	3059				0.85	0.051		
+Scaptodrosophila	collessi		starmer2003phylogenetic	3060				1.1	0.062		
+Scaptodrosophila	eluta		starmer2003phylogenetic	3061				0.98	0.062		
+Scaptodrosophila	brunnea		starmer2003phylogenetic	3062				1.46	0.047		
+Scaptodrosophila	fumida		starmer2003phylogenetic	3063				1.06	0.064		
+Scaptodrosophila	fuscithorax		starmer2003phylogenetic	3064	0.98						
+Scaptodrosophila	inornata		starmer2003phylogenetic	3065				1.04	0.088		
+Scaptodrosophila	lattivittata		starmer2003phylogenetic	3066				1.2	0.077		
+Scaptodrosophila	novoguinensis		starmer2003phylogenetic	3067				1.25	0.127		
+Scaptodrosophila	rhabdote		starmer2003phylogenetic	3068	1.14						
+Scaptodrosophila	zaphera		starmer2003phylogenetic	3069				1.01	0.083		
+Scaptodrosophila	Scapto		starmer2003phylogenetic	3070				0.99	0.111		
+Scaptodrosophila	hibisci		starmer2003phylogenetic	3071				0.91	0.098		
+Scaptodrosophila	aclinata		starmer2003phylogenetic	3072				0.77	0.083		
+Drosophila	fioricola		starmer2003phylogenetic	3073				0.88	0.073		
+Drosophila	repleta		starmer2003phylogenetic	3074				1.32	0.033		
+Drosophila	arizonae		starmer2003phylogenetic	3075				1.05	0.025		
+Drosophila	mettleri		starmer2003phylogenetic	3076				1.2	0.03		
+Drosophila	micromettleri		starmer2003phylogenetic	3077				1.14	0.01		
+Drosophila	mojavensis		starmer2003phylogenetic	3078				1.03	0.029		
+Drosophila	acanthoptera		starmer2003phylogenetic	3079				1.15	0.028		
+Drosophila	nannoptera		starmer2003phylogenetic	3080				1.06	0.026		
+Drosophila	wassermani		starmer2003phylogenetic	3081				1.15	0.028		
+Drosophila	pachea		starmer2003phylogenetic	3082				0.99	0.045		
+Drosophila	americana		starmer2003phylogenetic	3083				1.29	0.024		
+Drosophila	borealis		starmer2003phylogenetic	3084				1.29	0.036		
+Drosophila	lummei		starmer2003phylogenetic	3085				1.42	0.035		
+Drosophila	virilis		starmer2003phylogenetic	3086				1.25	0.041		
+Drosophila	lacicola		starmer2003phylogenetic	3087				1.22	0.029		
+Drosophila	montana		starmer2003phylogenetic	3088				1.32	0.027		
+Drosophila	texana		starmer2003phylogenetic	3089				1.27	0.032		
+Drosophila	eohydei		starmer2003phylogenetic	3090				1.28	0.041		
+Drosophila	nigrohydei		starmer2003phylogenetic	3091				1.34	0.041		
+Drosophila	hydei		starmer2003phylogenetic	3092				1.43	0.054		
+Drosophila	bifurca		starmer2003phylogenetic	3093				1.53	0.052		
+Drosophila	robusta		starmer2003phylogenetic	3094				1.47	0.048		
+Drosophila	immigrans		starmer2003phylogenetic	3095				1.48	0.044		
+Drosophila	micromelanica		starmer2003phylogenetic	3096				1.16	0.018		
+Drosophila	melanica		starmer2003phylogenetic	3097				1.33	0.014		
+Drosophila	neotestacae		starmer2003phylogenetic	3098				1.06	0.069		
+Drosophila	putrida		starmer2003phylogenetic	3099				1.04	0.011		
+Drosophila	subpalustris		starmer2003phylogenetic	3100				1.35	0.016		
+Drosophila	melanogaster		starmer2003phylogenetic	3101				0.98	0.036		
+Drosophila	simulans		starmer2003phylogenetic	3102				0.89	0.024		
+Drosophila	willistoni		starmer2003phylogenetic	3103				0.9	0.03		
+Drosophila	pseudoobscura		starmer2003phylogenetic	3104				1.09	0.057		
+Drosophila	busckii		starmer2003phylogenetic	3105				0.98	0.081		
+Hirtodrosophila	duncani		starmer2003phylogenetic	3106				1.17	0.037		
+Mycodrosophila	claytonae		starmer2003phylogenetic	3107				1.08	0.056		
+Mycodrosophila	dimidiata		starmer2003phylogenetic	3108	0.97						
