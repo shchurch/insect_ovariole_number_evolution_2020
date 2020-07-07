@@ -23,7 +23,7 @@ load("manuscript_supplement.RData")
 library(dplyr)
 ```
 
-Samuel H Church^1^\*, Bruno A. S. de Medeiros^1,2^, Seth Donoughe^1,3^, Nicole L. Márquez Reyes^4^, Cassandra G. Extavour^1,5^\*
+Samuel H. Church^1^\*, Bruno A. S. de Medeiros^1,2^, Seth Donoughe^1,3^, Nicole L. Márquez Reyes^4^, Cassandra G. Extavour^1,5^\*
 
 
 ^1^ Department of Organismic and Evolutionary Biology, Harvard University, Cambridge, MA 02138, USA
@@ -79,7 +79,7 @@ We visualized the results from the BAMM analysis to establish a threshold (`r lo
 
 ## Data availability {-}
 
-The dataset of insect ovariole number is available in the supplementary file 'ovariole_number_data.tsv' and has been uploaded to Dryad (doi:10.5061/dryad.59zw3r253). The code and phylogenetic trees required to reproduce all the analyses, figures, and generate the manuscript files are provided at 'https://github.com/shchurch/insect_ovariole_number_evolution_2020'.
+The dataset of insect ovariole number is available in the supplementary file 'ovariole_number_data.tsv' and has been uploaded to Dryad (doi:10.5061/dryad.59zw3r253). The code and phylogenetic trees required to reproduce all the analyses, figures, and generate the manuscript files are provided at 'https://github.com/shchurch/insect_ovariole_number_evolution_2020', commit 6cf446a.
 
 ## Statistical significance {-}
 
@@ -123,7 +123,7 @@ Using this ancestral state reconstruction, we then compared models of trait evol
 
 To analyze the robustness of these results to uncertainty in the tree topology and in the inference of ancestral states, we repeated each analysis over a posterior distribution of trees. For egg asymmetry and curvature, but not for volume or aspect ratio, we observed a few iterations where a model that takes into account oogenesis mode evolution was significantly favored over models that did not ($\Delta$AIC > 2, Table \ref{tab:ovary-model-comparison}). However, this result was infrequent over 100 repetitions of the analysis. We therefore interpret these results as suggestive of a possible relationship between mode of oogenesis and egg asymmetry and curvature, but one which cannot be confirmed given the current data available.
 
-![**The evolution of the presence and position of nurse cells.** a, Insect oogenesis was categorized into several modes by Büning[@buning1994insect] based on the presence and position of nurse cells. b, Phylogenetic reconstruction of mode of oogenesis. Scale bar indicates 100 million years (Myr). Gray = panoistic ovaries, without nurse cells, cyan=polytrophic meroistic ovaries, with nurse cells adjacent to maturing oocytes, red = telotrophic meroistic ovaries, with nurse cells located in germaria, black = unique meroistic ovary type observed in Strepsiptera. Insect taxonomic groups are, from top to bottom: Apterygota, Palaeoptera, Polyneoptera, Condylognatha, Psocodea, Hymenoptera, Neuropteroidea, Amphiesmenoptera, and Antliophora. ](manuscript_figures/Fig_Ovary_V8-01.png)
+![**The evolution of the presence and position of nurse cells.** a, Insect oogenesis was categorized into several modes by Büning[@buning1994insect] based on the presence and position of nurse cells. b, Phylogenetic reconstruction of mode of oogenesis. Scale bar indicates 100 million years (Myr). Gray = panoistic ovaries, without nurse cells, cyan = polytrophic meroistic ovaries, with nurse cells adjacent to maturing oocytes, red = telotrophic meroistic ovaries, with nurse cells located in germaria, black = unique meroistic ovary type observed in Strepsiptera. Insect taxonomic groups are, from top to bottom: Apterygota, Palaeoptera, Polyneoptera, Condylognatha, Psocodea, Hymenoptera, Neuropteroidea, Amphiesmenoptera, and Antliophora. ](manuscript_figures/Fig_Ovary_V8-01.png)
 
 ## Modeling ovariole number evolution { - }
 

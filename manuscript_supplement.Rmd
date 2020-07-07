@@ -48,7 +48,7 @@ options(tinytex.clean = FALSE)
 source("analysis/get_ovariole_number_data.R")
 ```
 
-Samuel H Church^1^\*, Bruno A. S. De Medeiros^1,2^, Seth Donoughe^1,3^, Nicole L. Márquez Reyes^4^, Cassandra G. Extavour^1,5^\*
+Samuel H. Church^1^\*, Bruno A. S. De Medeiros^1,2^, Seth Donoughe^1,3^, Nicole L. Márquez Reyes^4^, Cassandra G. Extavour^1,5^\*
 
 
 ^1^ Department of Organismic and Evolutionary Biology, Harvard University, Cambridge, MA 02138, USA
