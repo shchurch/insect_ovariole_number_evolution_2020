@@ -1,3 +1,11 @@
 analysis/pgls_results_June2020/run_pgls_over_posterior_distribution.RData filter=lfs diff=lfs merge=lfs -text
 manuscript_supplement.RData filter=lfs diff=lfs merge=lfs -text
 phylogeny/mrbayes_stitched_misof_posterior.tre filter=lfs diff=lfs merge=lfs -text
+analysis/pgls_results_Fall2020/run_pgls_simulated_allometry_gilbert_genus_0_image.RData filter=lfs diff=lfs merge=lfs -text
+analysis/pgls_results_Fall2020/run_posterior_pgls_body_size.RData filter=lfs diff=lfs merge=lfs -text
+analysis/pgls_results_Fall2020/run_posterior_pgls_egg_size_ovariole_number.RData filter=lfs diff=lfs merge=lfs -text
+analysis/pgls_results_Fall2020/run_posterior_pgls_fecundity.RData filter=lfs diff=lfs merge=lfs -text
+analysis/pgls_results_Fall2020/run_posterior_pgls_subclade.RData filter=lfs diff=lfs merge=lfs -text
+analysis/pgls_results_Fall2020/run_pgls_simulated_allometry_body_egg_ON_family_-1_image.RData filter=lfs diff=lfs merge=lfs -text
+analysis/pgls_results_Fall2020/run_pgls_simulated_allometry_body_egg_ON_family_0_image.RData filter=lfs diff=lfs merge=lfs -text
+analysis/pgls_results_Fall2020/run_pgls_simulated_allometry_gilbert_genus_-1_image.RData filter=lfs diff=lfs merge=lfs -text

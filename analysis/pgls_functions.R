@@ -10,7 +10,7 @@ pgls.trees <- function(data,tree,form){
   red_dat <- data[!rownames(data) %in% setdiff(rownames(data),pruned$tip.label),]
 
   # build a Brownian Motion correlation struction
-  lm_str <- corBrownian(phy=pruned)
+  lm_str <- corBrownian(phy=pruned,form=~rank)
 
   # run regression with model
   outskis <- gls(as.formula(form),correlation = lm_str,data = red_dat,method="ML")
@@ -30,8 +30,7 @@ build_pgls <- function(data,tree) {
   # The dataframe for pgls is built        
   pgls_dat <- data.frame(trait1 = red_dat$trait1, trait2 = red_dat$trait2 ,rank = red_dat$rank)
 
-  # Rows with NA and infinite values are removed
-  is.na(pgls_dat) <- sapply(pgls_dat, is.infinite)
+  # Rows with NA values are removed
   pgls_dat <- na.omit(pgls_dat)
 
   # The dataset is grouped according to the taxonomic rank and a random entry is chosen
@@ -51,8 +50,7 @@ build_resid_pgls <- function(data,tree) {
   # The dataframe for the pgls is built        
   pgls_dat <- data.frame(trait1 = red_dat$trait1, trait2 = red_dat$trait2, indep = red_dat$indep, rank=red_dat$rank)
 
-  # Rows with NA and infinite values are removed
-  is.na(pgls_dat) <- sapply(pgls_dat,is.infinite)
+  # Rows with NA values are removed
   pgls_dat <-na.omit(pgls_dat)
 
   # The dataset is grouped according to the taxonomic rank and a random entry is chosen
@@ -82,7 +80,7 @@ build_resid_pgls <- function(data,tree) {
 run_all_taxa_pgls <- function(data,tree){
   # Build the pgls dataset across all taxa
   all_dat <- build_pgls(data,tree)
-  # Runt the pgls across all taxa
+  # Run the pgls across all taxa
   all_pgls_out <- pgls.trees(all_dat,tree,"trait2 ~ trait1")
 
   return(all_pgls_out)
@@ -116,7 +114,7 @@ run_all_taxa_and_by_group_pgls <- function(data,tree,group_list){
 run_all_taxa_resid_pgls <- function(data,tree){
   # Build the pgls residual dataset across all taxa
   all_dat <- build_resid_pgls(data,tree)
-  # Runt the pgls residual across all taxa
+  # Run the pgls residual across all taxa
   all_pgls_out <- pgls.trees(all_dat,tree,"trait2 ~ trait1")
 
   return(all_pgls_out)
@@ -127,7 +125,7 @@ run_all_taxa_resid_pgls <- function(data,tree){
 run_all_taxa_and_by_group_resid_pgls <- function(data,tree,group_list){
   # Build the pgls residual dataset across all taxa
   all_dat <- build_resid_pgls(data,tree)
-  # Runt the pgls residual across all taxa
+  # Run the pgls residual across all taxa
   all_pgls_out <- pgls.trees(all_dat,tree,"trait2 ~ trait1")
 
   # Create group datasets
@@ -190,7 +188,7 @@ run_plotting_pgls <- function(data,tree,name){
 run_plotting_resid_pgls <- function(data,tree,name){
   # Build the pgls residual dataset across all taxa
   all_dat <- build_resid_pgls(data,tree)
-  # Runt the pgls residual across all taxa
+  # Run the pgls residual across all taxa
   all_pgls_out <- pgls.trees(all_dat,tree,"trait2 ~ trait1")
   # Add group names to results
   all_dat$group <- plyr::mapvalues(all_dat$rank,data$rank,data$group,warn_missing=F)
@@ -212,7 +210,7 @@ run_plotting_resid_pgls <- function(data,tree,name){
 run_plotting_resid_group_pgls <- function(data,tree,name){
   # Build the pgls residual dataset across all taxa
   all_dat <- build_resid_pgls(data,tree)
-  # Runt the pgls residual across all taxa
+  # Run the pgls residual across all taxa
   all_pgls_out <- pgls.trees(all_dat,tree,"trait2 ~ trait1")
 
   # Create group datasets

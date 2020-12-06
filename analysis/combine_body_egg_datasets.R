@@ -98,11 +98,11 @@ ON_family <- ON[sample(nrow(ON)),] %>% filter(!(is.na(on))) %>% group_by(family)
 ### fam_count_threshold <- 1
 ### The fam_count_threshold is going to be set by the parent R command, when this file is run from source()
 
-egg_fam_count <- egg_family %>% group_by(family) %>% summarize(n = n())
+egg_fam_count <- egg_family %>% group_by(family) %>% summarize(n = n(),.groups="drop")
 egg_fam_count_n <- egg_fam_count %>% filter(n > fam_count_threshold)
 egg_family <- egg_family %>% filter(family %in% egg_fam_count_n$family)
 
-ON_fam_count <- ON_family %>% group_by(family) %>% summarize(n = n())
+ON_fam_count <- ON_family %>% group_by(family) %>% summarize(n = n(),.groups="drop")
 ON_fam_count_n <- ON_fam_count %>% filter(n > fam_count_threshold)
 ON_family <- ON_family %>% filter(family %in% ON_fam_count_n$family)
 
