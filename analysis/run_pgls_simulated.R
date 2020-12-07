@@ -4,6 +4,8 @@ library(geiger)
 library(phylolm)
 downsample_factor <- 1;	fam_count_threshold <- 1 # don't downsample family level average data
 
+set.seed(12345)
+
 args = commandArgs(trailingOnly=TRUE) # get arguments, there are 2
 analysis_name <- args[1]
 slope <- as.numeric(args[2])
