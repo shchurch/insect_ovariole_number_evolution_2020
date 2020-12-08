@@ -1,24 +1,26 @@
 ---
 title: Repeated loss of variation in insect ovary morphology highlights the role of developmental constraint in life-history evolution - Supplementary Methods
-output: 
-  bookdown::pdf_document2:
+output:
+    bookdown::pdf_document2:
     keep_tex: yes
     latex_engine: pdflatex
-    toc: no
-  #bookdown::html_document2: default
+    #bookdown::html_document2: default
+toc: true
 bibliography: manuscript_supplement.bib
 csl: nature.csl
 link-citations: yes
 header-includes:
  \usepackage{float}
+ \usepackage{array}
+ \usepackage{xcolor,colortbl}
  \floatplacement{figure}{H}
 ---
 
 ```{r global options, include = FALSE}
-knitr::opts_chunk$set(echo=FALSE, include = FALSE, warning=FALSE, message=FALSE, cache=TRUE)
+knitr::opts_chunk$set(echo=FALSE, include = FALSE, warning=FALSE, message=FALSE, cache=FALSE)
 ```
 
-```{r preliminaries,cache=FALSE}
+```{r preliminaries}
 library(BAMMtools)
 library(phytools)
 library(coda)
@@ -43,7 +45,7 @@ options(tinytex.clean = FALSE)
 \renewcommand{\thetable}{S\@arabic\c@table}
 \makeatother
 
-```{r load_data, cache=FALSE}
+```{r load_data}
 # This script reads in and formats the ovariole number dataset
 source("analysis/get_ovariole_number_data.R")
 ```
@@ -99,7 +101,7 @@ We combined the data we collected on total ovariole number with existing dataset
 
 Ovariole number and egg size[@church2019insect] data were combined by matching records at the species level (Fig 2a). When multiple records existed for a given species, the dataset was randomly shuffled and a single matching record was selected. This variation across records for the same species was accounted for in regressions by reshuffling and matching records at each iteration of the analysis. In order to test whether results were robust with a larger sample size, we also matched records at the genus level following the same reshuffling method (Fig. \ref{fig:PGLS-egg-ON-genus}).
 
-Average adult body length per insect family[@rainford2016phylogenetic] was matched to the average ovariole number for the corresponding families (Fig. \ref{fig:PGLS-egg-ON-family}). The Rainford et al, 2016[@rainford2016phylogenetic] dataset contains a small number of average adult body lengths at the order level (e.g. Strepsiptera), which were matched to their equivalent group in the ovariole number dataset. To test the effect of uncertainty in the estimated average ovariole number on our results, the dataset for each family was downsampled by half at each iteration of the regression analysis.
+Average adult body length per insect family[@rainford2016phylogenetic] was matched to the average ovariole number for the corresponding families (Fig. \ref{fig:PGLS-family-length}). The Rainford et al, 2016[@rainford2016phylogenetic] dataset contains a small number of average adult body lengths at the order level (e.g. Strepsiptera), which were matched to their equivalent group in the ovariole number dataset. To test the effect of uncertainty in the estimated average ovariole number on our results, the dataset for each family was downsampled by half at each iteration of the regression analysis.
 
 Ovariole number, egg volume, lifetime fecundity, and adult body weight[@Gilbert2007] were combined by matching records at the species level and genus level, using the same method as described above (Figs. 2b, 3, and \ref{fig:PGLS-Gilbert-name}). We excluded one value from this dataset which appeared to include a typographical error for lifetime fecundity (Hymenoptera: Trichogrammatidae, lifetime fecundity recorded as 0.1[@Gilbert2007]).
 
@@ -107,203 +109,550 @@ Several lineage-specific measurements for body size were matched to the ovariole
 
 ## Phylogenetic Generalized Least Squares (PGLS) analyses {#sec:PGLS}
 
-```{r PGLS-posterior, include=TRUE, cache=FALSE}
-#source("analysis/run_pgls_over_posterior_distribution.R")
-load("analysis/pgls_results_June2020/run_pgls_over_posterior_distribution.RData")
-
-# analysis names in table 
-pgls_analysis_names <- c("ovariole number vs egg volume",
-  "ovariole number vs egg volume",
-  "ovariole number vs egg volume, residuals to body length",
-  "ovariole number vs egg volume, residuals to body length, excluding Trigonalidae",
-  "ovariole number vs egg volume, residuals to body weight",
-  "ovariole number vs egg volume, residuals to body weight",
-  "ovariole number vs lifetime fecundity",
-  "ovariole number vs lifetime fecundity",
-  "Curculionoidea ovariole number vs egg volume, residual to elytra length",
-  "Orthoptera ovariole number vs egg volume, residuals to body length",
-  "Hymenoptera ovariole number vs egg volume, residuals to mesosoma width",
-  "Drosophilidae ovariole number vs egg volume, residuals to thorax length")
-# level at which each PGLS was performed 
-taxonomic_levels <- c("species","genus","family","family","species","genus","species","genus","genus","genus","genus","species")
-
-sp <- " -- " # separator in tables
-
-# write table
-all_table <- as.data.frame(do.call(rbind, allometry_tables)) %>% round(.,3) %>% mutate(analysis = pgls_analysis_names, "taxonomic level" = taxonomic_levels,slope = paste(sprintf("%.3f",slope_min),sprintf("%.3f",slope_max),sep=sp),
-      intercept = paste(sprintf("%.3f",int_min),sprintf("%.3f",int_max),sep=sp),
-      "p-value" = paste(sprintf("%.3f",pval_min),gsub("0.000","<0.000",sprintf("%.3f",pval_max)),sep=sp),
-      "taxa" = taxa) 
-knitr::kable(all_table  %>% select(c("analysis","taxonomic level","slope","intercept","p-value","taxa")), "latex",caption="Results of PGLS analysis of ovariole number, egg size, and fecundity across a posterior distribution", booktabs = T, linesep = "") %>%
-  kableExtra::kable_styling(latex_options = "striped") %>%
-  kableExtra::column_spec(1, width = "16em") %>%
-  kableExtra::kable_styling(latex_options = "hold_position")  %>%
-  kableExtra::kable_styling(font_size = 8) 
-```  
-
-```{r PGLS-body-posterior, include=TRUE, cache=FALSE}
-#source("analysis/run_pgls_body_ovariole_number.R")
-load("analysis/pgls_results_June2020/run_pgls_body_ovariole_number.RData")
-
-# analysis names in table 
-pgls_analysis_names <- c("ovariole number vs body length",
-  "ovariole number vs body weight",
-  "ovariole number vs body weight",
-  "Curculionoidea ovariole number vs elytra length",
-  "Orthoptera ovariole number vs body length",
-  "Hymenoptera ovariole number vs mesosoma width",
-  "Drosophilidae ovariole number vs thorax length")
-# level at which each PGLS was performed 
-taxonomic_levels <- c("family","species","genus","genus","genus","genus","species")
-
-# write table 
-body_all_table <- as.data.frame(do.call(rbind, body_allometry_tables)) %>% round(.,3) %>% mutate(analysis = pgls_analysis_names, "taxonomic level" = taxonomic_levels,slope = paste(sprintf("%.3f",slope_min),sprintf("%.3f",slope_max),sep=sp),
-       intercept = paste(sprintf("%.3f",int_min),sprintf("%.3f",int_max),sep=sp),
-       "p-value" = paste(sprintf("%.3f",pval_min),gsub("0.000","<0.000",sprintf("%.3f",pval_max)),sep=sp),
-       "taxa" = taxa)
-knitr::kable(body_all_table %>% select(c("analysis","taxonomic level","slope","intercept","p-value","taxa")), "latex",caption="Results of PGLS analysis of ovariole number and body size across a posterior distribution", booktabs = T, linesep = "") %>%
-  kableExtra::kable_styling(latex_options = "striped") %>%
-  kableExtra::column_spec(1, width = "16em") %>%
-  kableExtra::kable_styling(latex_options = "hold_position")  %>%
-  kableExtra::kable_styling(font_size = 8) 
-```
-
-For each regression, we repeated a Phylogenetic Generalized Least Squares (PGLS) analysis 1000 times, accounting for phylogenetic and phenotypic uncertainty, using the R packages ape (version `r packageVersion('ape')`)[@paradis2004ape] and nlme (version `r packageVersion('nlme')`)[@pinheiro2014r]. In these analyses we used a Brownian Motion based covariance matrix for traits. 
-
-For regressions at the species and genus level, we reshuffled and matched records at each iteration to account for variation across records for the same taxon. For regressions at the family level we recalculated the average ovariole number per insect family, downsampling the representation for each family by half. No posterior distribution was made available with the published family level phylogeny[@rainford2014phylogenetic].
-
-To account for body size, we calculated the phylogenetic residuals[@revell2010phylogenetic] of each trait to body size, and then compared the evolution of these residuals using a PGLS regression.
-
 ```{r PGLS-setup}
-# build body size dataset
-# set factor for resampling the body size dataframe, here no downsampling used
-downsample_factor <- 1.0
+source("analysis/pgls_functions.R")
+
+# combine datasets, using all data and randomly shuffled database entries
+downsample_factor <- 1
 fam_count_threshold <- 1
+
+set.seed(12345)  # set seed for cobmination
 source("analysis/combine_body_egg_datasets.R")
-source("analysis/pgls_functions.R") # get functions for plotting PGLS results
+
+# use the maximum clade credibility tree
+tree <- genus_mcc_tree
 ```
 
-```{r PGLS-egg-ON-name}
+```{r PGLS-egg-ON}
 ### PGLS egg volume vs ON, species level pgls
-egg_ON_name_pgls <- egg_ON_name %>% select(genus,vol,on,group) %>% rename(rank = genus, trait1 = on, trait2 = vol)
+pgls_results_egg_ON_name <- run_all_taxa_pgls(egg_ON_name %>% 
+    select(genus,logvol,logon,group) %>% 
+    rename(rank = genus, trait1 = logon, trait2 = logvol) ,
+    tree)
+
+egg_ON_name_plot <- egg_ON_name %>% 
+    select(genus,vol,on,group) %>% 
+    rename(rank = genus, trait1 = on, trait2 = vol) 
 
 # this function helps format scientific notation correctly
 scientific_10 <- function(x) {
-  parse(text=gsub("1e", "10^", scales::scientific_format()(x)))
+    parse(text=gsub("1e", "10^", scales::scientific_format()(x)))
 }
 
 pdf("manuscript_figures/panels/FigEgg_ON_name.pdf",height=5,width=7.5,useDingbats = F)
-  g1 <- ggplot(egg_ON_name_pgls,aes(x = trait1, y = trait2, color = group)) +
-      geom_point() +
-      scale_color_manual(values = mrk) +
-      scale_x_log10(breaks=c(1,10,100,1000,10000)) +
-      scale_y_log10(label=scientific_10,breaks=c(0.00001,0.0001,0.001,0.01,0.1,1,10,100,100)) +
-      theme(legend.position = "none") +
-      xlab('ovariole number') +
-      ylab(bquote('egg volume '(~mm^3)))
-  print(g1)
-invisible(dev.off())
-
-### Gilbert egg volume vs ON, independent body weight, genus level pgls
-egg_ON_gilbert_genus_pgls <- egg_ON_gilbert_genus %>% select(genus,logvol,logon,logweight,group) %>% mutate(rank = genus, trait1 = logon, trait2= logvol, indep = logweight)
-pdf("manuscript_figures/panels/FigEgg_gilbert_weight_residuals.pdf",height=2.5,width=2.5,useDingbats = F)
-run_plotting_resid_pgls(egg_ON_gilbert_genus_pgls,tree,"gilbert_genus") + xlab("residual of ovariole number") +
-  ylab("residual of egg volume")
-invisible(dev.off())
-
-### Drosophilidae pgls
-DIP_pgls <- DIP_body_egg_ON_name %>% select(name,logvol,logon,logbody,group) %>% rename(rank = name, trait1 = logon, trait2= logvol, indep = logbody)
-pdf("manuscript_figures/panels/FigEgg_Drosophila_residuals.pdf",height=2.5,width=2.5,useDingbats = F)
-run_plotting_resid_pgls(DIP_pgls,dros_tree,"DIP") + xlab("residual of ovariole number") +
-  ylab("residual of egg volume")
-invisible(dev.off())
-
-### Orthoptera pgls
-ORT_pgls <- ORT_body_egg_ON_genus %>% select(genus,logvol,logon,logbody,group) %>% rename(rank = genus, trait1 = logon, trait2= logvol, indep = logbody)
-pdf("manuscript_figures/panels/FigEgg_Orthoptera_residuals.pdf",height=2.5,width=2.5,useDingbats = F)
-run_plotting_resid_pgls(ORT_pgls,tree,"ORT") + xlab("residual of ovariole number") +
-  ylab("residual of egg volume")
+g1 <- ggplot(egg_ON_name_plot,aes(x = trait1, y = trait2, color = group)) +
+    geom_point() +
+    scale_color_manual(values = mrk) +
+    scale_x_log10(breaks=c(1,10,100,1000,10000)) +
+    scale_y_log10(label=scientific_10,breaks=c(0.00001,0.0001,0.001,0.01,0.1,1,10,100,100)) +
+    theme(legend.position = "none") +
+    xlab('ovariole number') +
+    ylab(bquote('egg volume '(~mm^3)))
+print(g1)
 invisible(dev.off())
 ```
 
-\clearpage
-
 ```{r PGLS-egg-ON-genus, fig.cap="**Egg volume vs ovariole number, matching records at the genus level.**", fig.width=7.5, fig.height=5, include=TRUE}
-### PGLS egg volume vs ON, species level pgls
-egg_ON_genus_pgls <- egg_ON_genus %>% select(genus,logvol,logon,group) %>% rename(rank = genus, trait1 = logon, trait2 = logvol)
+### PGLS on vs egg volume by insect genus
+egg_ON_genus_pgls <- egg_ON_genus %>% 
+    select(genus,logvol,logon,group) %>% 
+    rename(rank = genus, trait1 = logon, trait2 = logvol) 
+
+pgls_results_egg_ON_genus <- run_all_taxa_pgls(egg_ON_genus_pgls,tree)
+
 run_plotting_pgls(egg_ON_genus_pgls,tree,"egg_ON_genus") +
-  xlab(bquote('ovariole number,'~log[10])) +
-  ylab(bquote('egg volume,'~mm^3~','~log[10]))
+    xlab(bquote('ovariole number,'~log[10])) +
+    ylab(bquote('egg volume,'~mm^3~','~log[10]))
+```
+
+```{r PGLS-egg-ON-weight-genus}
+### Gilbert egg vs ON, ind body weight genus pgls
+gilbert_genus_pgls <- egg_ON_gilbert_genus %>% 
+    select(genus,logvol,logon,logweight,group) %>% 
+    mutate(rank = genus, trait1 = logon, trait2= logvol, indep = logweight) 
+
+pgls_results_gilbert_genus <- run_all_taxa_resid_pgls(gilbert_genus_pgls,tree)
+
+### Gilbert egg volume vs ON, independent body weight, genus level pgls
+pdf("manuscript_figures/panels/FigEgg_gilbert_weight_residuals.pdf",height=2.5,width=2.5,useDingbats = F)
+run_plotting_resid_pgls(gilbert_genus_pgls,tree,"gilbert_genus") + 
+    xlab("residual of ovariole number") + 
+    ylab("residual of egg volume")
+invisible(dev.off())
 ```
 
 ```{r PGLS-Gilbert-name, fig.cap="**Egg volume vs ovariole number, phylogenetic residuals to dry adult body weight, matching records at the species level.**", fig.width=3, fig.height=3, include=TRUE}
+### Gilbert egg vs ON, ind body weight name pgls
+egg_ON_gilbert_name_pgls <- egg_ON_gilbert_name %>% 
+    select(genus,logvol,logon,logweight,group) %>% 
+    mutate(rank = genus, trait1 = logon, trait2= logvol, indep = logweight) 
+
+pgls_results_gilbert_name <- run_all_taxa_resid_pgls(egg_ON_gilbert_name_pgls,tree)
+
 ### Gilbert body weight, species level pgls
-egg_ON_gilbert_name_pgls <- egg_ON_gilbert_name %>% select(genus,logvol,logon,logweight,group) %>% mutate(rank = genus, trait1 = logon, trait2= logvol, indep = logweight)
-run_plotting_resid_pgls(egg_ON_gilbert_name_pgls,tree,"gilbert_name") + xlab("residual of ovariole number") +
-  ylab("residual of egg volume")
+run_plotting_resid_pgls(egg_ON_gilbert_name_pgls,tree,"gilbert_name") + 
+    xlab("residual of ovariole number") + 
+    ylab("residual of egg volume")
 ```
 
-```{r PGLS-egg-ON-family, fig.cap="**Family average egg volume vs ovariole number, phylogenetic residuals to adult body length.** Point outlined in black = Hymenoptera: Trigonalidae, an outlier that drives the relationship.",  fig.width=3, fig.height=3, include=TRUE}
-### PGLS egg volume vs ON, family averages
-body_egg_ON_family_pgls <- body_egg_ON_full %>% select(rank,logvol,logon,logbody,group) %>% rename(trait1 = logon, trait2= logvol, indep = logbody)
-egfam1 <- run_plotting_resid_pgls(body_egg_ON_family_pgls,fam_tree,"body_egg_ON_family")
+```{r PGLS-family-length, fig.cap="**Family average egg volume vs ovariole number, phylogenetic residuals to adult body length.**",  fig.width=3, fig.height=3, include=TRUE}
+### PGLS egg vs ON, independent body size
+body_egg_ON_family_pgls <- body_egg_ON_full %>% 
+    select(rank,logvol,logon,logbody,group) %>% 
+    rename(trait1 = logon, trait2= logvol, indep = logbody) 
 
-egfam1 + xlab("residual of average ovariole number") +
-  ylab("residual of average egg volume") +
-  geom_point(data = (egfam1$data %>% filter(rank == "Trigonalidae")),aes(fill=group),color="black",stroke=1,pch=21)
+pgls_results_body_egg_ON_family <- run_all_taxa_resid_pgls(body_egg_ON_family_pgls,fam_tree)
+
+run_plotting_resid_pgls(body_egg_ON_family_pgls,fam_tree,"body_egg_ON_family") + 
+    xlab("residual of average ovariole number") +
+    ylab("residual of average egg volume")
+```
+
+\textcolor{red}{We ran each Phylogenetic Generalized Least Squares regression over the Maximum Clade Credibilty (MCC) tree. For each regression, we also repeated each PGLS analysis 1000 times,} accounting for phylogenetic and phenotypic uncertainty, using the R packages ape (version `r packageVersion('ape')`)[@paradis2004ape] and nlme (version `r packageVersion('nlme')`)[@pinheiro2014r]. In these analyses we used a Brownian Motion based covariance matrix for traits. 
+
+For regressions at the species and genus level, we reshuffled and matched records at each iteration to account for variation across records for the same taxon. For regressions at the family level we recalculated the average ovariole number per insect family, downsampling the representation for each family by half. No posterior distribution was available with the previously published family level phylogeny[@rainford2014phylogenetic].
+
+To account for body size, we calculated the phylogenetic residuals[@revell2010phylogenetic] of each trait to body size, and then compared the evolution of these residuals using a PGLS regression.
+
+\textcolor{red}{For regressions of egg size and ovariole number when accounting for adult body size, we compared the results of our regression analyses to distributions estimated using simulated data under alternative hypotheses. We fit a Brownian motion model to the phylogenetic residuals of egg size and body size (R package geiger}[@harmon2007geiger]\textcolor{red}{, version `r packageVersion('geiger')`), and then used the parameters of this fitted model to simulate new datasets (R package phylolm}[@tung2014linear]\textcolor{red}{, version `r packageVersion('phylolm')`). We performed this resimulation using the datasets of egg size and body length at the family level, and egg size and body weight at the genus level. We simulated 1000 datasets each under two hypotheses: no correlation (slope=0) and a strong negative correlation (slope=-1:1). We performed the regressions as described above and compared the distribution of p-values and slopes to values from regressions on observed data.}
+
+```{r simulated, fig.cap="**\\textcolor{red}{Using simulated data to test alternative hypotheses of evolutionary relationships}** Top row, distributions of p-values over 1000 replicate regressions, dashed black line indicates threshold of 0.01. Bottom row, distribution of estimated slopes between egg size and ovariole number, dashed lines indicate 95% interval of simulated distributions. Left, comparing egg size and ovariole number, accounting for body length at the family level. Right, comparing egg size and ovariole number, accounting for body weight at the genus level. Red=observed values, gray=simulated with no correlation, black=simulated with a -1:1 correlation. n=1000 regressions.", fig.width=7.5, fig.height=5, include=TRUE}
+get_tstat <- function(sum,n) {
+    tstat <- as.numeric(unname(sum[[n]]$coefficients[[2]]))
+    return(tstat)
+}
+
+get_pval <- function(sum,n) {
+    pval <- as.numeric(unname(sum[[n]]$tTable[[8]]))
+    return(pval)
+}
+
+load("analysis/pgls_results_Fall2020/run_pgls_simulated_allometry_body_egg_ON_family_-1_image.RData")
+sim_corr_tstat_dist <- sapply(allometry_distribution_raw,get_tstat,n=1)
+sim_corr_pval_dist <- sapply(allometry_distribution_raw,get_pval,n=1)
+load("analysis/pgls_results_Fall2020/run_pgls_simulated_allometry_body_egg_ON_family_0_image.RData")
+sim_nocorr_tstat_dist <- sapply(allometry_distribution_raw,get_tstat,n=1)
+sim_nocorr_pval_dist <- sapply(allometry_distribution_raw,get_pval,n=1)
+load("analysis/pgls_results_Fall2020/run_posterior_pgls_egg_size_ovariole_number.RData")
+obs_tstat_dist <- sapply(allometry_distribution_raw,get_tstat,n=3)
+obs_pval_dist <- sapply(allometry_distribution_raw,get_pval,n=3)
+
+body_egg_ON_family_tstat_dist <- rbind(tibble(type = "simulated",
+    relationship = "-1:1 correlation",
+    tstat=sim_corr_tstat_dist),
+tibble(type = "simulated",
+    relationship = "no correlation",
+    tstat=sim_nocorr_tstat_dist),
+tibble(type = "observed",
+    relationship = "observed",
+    tstat=obs_tstat_dist))
+
+body_egg_ON_family_pval_dist <- rbind(tibble(type = "simulated",
+    relationship = "-1:1 correlation",
+    pval=sim_corr_pval_dist),
+tibble(type = "simulated",
+    relationship = "no correlation",
+    pval=sim_nocorr_pval_dist),
+tibble(type = "observed",
+    relationship = "observed",
+    pval=obs_pval_dist))
+
+
+load("analysis/pgls_results_Fall2020/run_pgls_simulated_allometry_gilbert_genus_-1_image.RData")
+sim_corr_tstat_dist <- sapply(allometry_distribution_raw,get_tstat,n=1)
+sim_corr_pval_dist <- sapply(allometry_distribution_raw,get_pval,n=1)
+load("analysis/pgls_results_Fall2020/run_pgls_simulated_allometry_gilbert_genus_0_image.RData")
+sim_nocorr_tstat_dist <- sapply(allometry_distribution_raw,get_tstat,n=1)
+sim_nocorr_pval_dist <- sapply(allometry_distribution_raw,get_pval,n=1)
+load("analysis/pgls_results_Fall2020/run_posterior_pgls_egg_size_ovariole_number.RData")
+obs_tstat_dist <- sapply(allometry_distribution_raw,get_tstat,n=5)
+obs_pval_dist <- sapply(allometry_distribution_raw,get_pval,n=5)
+
+gilbert_genus_pval_dist <- rbind(tibble(type = "simulated",
+    relationship = "-1:1 correlation",
+    pval=sim_corr_pval_dist),
+tibble(type = "simulated",
+    relationship = "no correlation",
+    pval=sim_nocorr_pval_dist),
+tibble(type = "observed",
+    relationship = "observed",
+    pval=obs_pval_dist))
+
+gilbert_genus_tstat_dist <- rbind(tibble(type = "simulated",
+    relationship = "-1:1 correlation",
+    tstat=sim_corr_tstat_dist),
+tibble(type = "simulated",
+    relationship = "no correlation",
+    tstat=sim_nocorr_tstat_dist),
+tibble(type = "observed",
+    relationship = "observed",
+    tstat=obs_tstat_dist))
+
+t1 <- ggplot(body_egg_ON_family_tstat_dist,aes(x=tstat,y=relationship,color=relationship)) + geom_jitter(size=0.2)  + 
+geom_vline(xintercept=quantile(body_egg_ON_family_tstat_dist %>% filter(relationship == "-1:1 correlation") %>% pull(tstat),0.05),colour="black",linetype="longdash") + 
+geom_vline(xintercept=quantile(body_egg_ON_family_tstat_dist %>% filter(relationship == "-1:1 correlation") %>% pull(tstat),0.95),colour="black",linetype="longdash") + 
+geom_vline(xintercept=quantile(body_egg_ON_family_tstat_dist %>% filter(relationship == "no correlation") %>% pull(tstat),0.05),colour="dark gray",linetype="longdash") + 
+geom_vline(xintercept=quantile(body_egg_ON_family_tstat_dist %>% filter(relationship == "no correlation") %>% pull(tstat),0.95),colour="dark gray",linetype="longdash") + 
+#ggtitle("size vs number, body length, family")  + 
+xlab("test statistic, slope") +
+#ylab("type") + 
+xlim(c(-2,2)) +
+scale_color_manual(values = c("black","dark gray","red")) +
+theme(legend.position="none",
+    axis.title.y=element_blank())
+
+t2 <- ggplot(gilbert_genus_tstat_dist,aes(x=tstat,y=relationship,color=relationship)) + geom_jitter(size=0.2)  + 
+geom_vline(xintercept=quantile(gilbert_genus_tstat_dist %>% filter(relationship == "-1:1 correlation") %>% pull(tstat),0.05),colour="black",linetype="longdash") + 
+geom_vline(xintercept=quantile(gilbert_genus_tstat_dist %>% filter(relationship == "-1:1 correlation") %>% pull(tstat),0.95),colour="black",linetype="longdash") + 
+geom_vline(xintercept=quantile(gilbert_genus_tstat_dist %>% filter(relationship == "no correlation") %>% pull(tstat),0.05),colour="dark gray",linetype="longdash") + 
+geom_vline(xintercept=quantile(gilbert_genus_tstat_dist %>% filter(relationship == "no correlation") %>% pull(tstat),0.95),colour="dark gray",linetype="longdash") + 
+#ggtitle("size vs number, body weight, genus") + 
+xlab("test statistic, slope") +
+#ylab("type") + 
+xlim(c(-2,2)) +
+scale_color_manual(values = c("black","dark gray","red")) +
+theme(legend.position="none",
+    axis.title.y=element_blank(),
+axis.text.y=element_blank(),
+axis.ticks.y=element_blank())
+
+p1 <- ggplot(body_egg_ON_family_pval_dist,aes(x=pval,y=relationship,color=relationship)) + geom_jitter(size=0.2)  + 
+geom_vline(xintercept=0.01,colour="black",linetype="dashed") + 
+#geom_vline(xintercept=0.05,colour="black",linetype="longdash") + 
+ggtitle("egg size vs ov. number, body length")  + 
+xlab("p-value") +
+#ylab("type") + 
+xlim(c(0,1)) +
+scale_color_manual(values = c("black","dark gray","red")) +
+theme(legend.position="none",
+    axis.title.y=element_blank())
+
+p2 <- ggplot(gilbert_genus_pval_dist,aes(x=pval,y=relationship,color=relationship)) + geom_jitter(size=0.2)  + 
+geom_vline(xintercept=0.01,colour="black",linetype="dashed") + 
+#geom_vline(xintercept=0.05,colour="black",linetype="longdash") + 
+ggtitle("egg size vs ov. number, body weight") + 
+xlab("p-value") +
+#ylab("type") + 
+xlim(c(0,1)) +
+scale_color_manual(values = c("black","dark gray","red")) +
+theme(legend.position="none",
+    axis.title.y=element_blank(),
+axis.text.y=element_blank(),
+axis.ticks.y=element_blank())
+
+grid.arrange(p1,p2,t1,t2,ncol=2,widths=5:4)
+```
+
+```{r PGLS-sublineage}
+### Apoidea ON, egg, indep body pgls
+DIP_body_egg_ON_name_pgls <- DIP_body_egg_ON_name %>% 
+    select(name,logvol,logon,logbody,group) %>% 
+    rename(rank = name, trait1 = logon, trait2= logvol, indep = logbody) 
+
+pgls_results_DIP <- run_all_taxa_resid_pgls(DIP_body_egg_ON_name_pgls,dros_tree)
+
+pdf("manuscript_figures/panels/FigEgg_Drosophila_residuals.pdf",height=2.5,width=2.5,useDingbats = F)
+run_plotting_resid_pgls(DIP_body_egg_ON_name_pgls,dros_tree,"DIP") + 
+    xlab("residual of ovariole number") +
+    ylab("residual of egg volume")
+invisible(dev.off())
+
+### Orthoptera ON, egg, indep body pgls
+ORT_body_egg_ON_genus_pgls <- ORT_body_egg_ON_genus %>% 
+    select(genus,logvol,logon,logbody,group) %>% 
+    rename(rank = genus, trait1 = logon, trait2= logvol, indep = logbody) 
+
+pgls_results_ORT <- run_all_taxa_resid_pgls(ORT_body_egg_ON_genus_pgls,tree)
+
+pdf("manuscript_figures/panels/FigEgg_Orthoptera_residuals.pdf",height=2.5,width=2.5,useDingbats = F)
+run_plotting_resid_pgls(ORT_body_egg_ON_genus_pgls,tree,"ORT") + 
+    xlab("residual of ovariole number") +
+    ylab("residual of egg volume")
+invisible(dev.off())
 ```
 
 ```{r PGLS-Coleoptera-Hymenoptera, fig.cap="**Additional lineage-specific comparisons of egg volume vs ovariole number, phylogenetic residuals to body size, matching records at the genus level.** Weevils (Curculionoidea, left) were measured using elytra length and wasps (Hymenoptera, right) were measured using mesosoma width.", fig.width=6, fig.height=3, include=TRUE}
-### Curculionoidea pgls
-COL1_pgls <- COL1_body_egg_ON_genus %>% select(genus,logvol,logon,logbody,group) %>% rename(rank = genus, trait1 = logon, trait2 = logvol, indep = logbody)
-theme_update(plot.title = element_text(hjust = 0.5))
-col1 <- run_plotting_resid_pgls(COL1_pgls,tree,"COL1") + xlab("residual of ovariole number") +
-  ylab("residual of egg volume") + ggtitle("Coleoptera: Curculionoidea")
+### Curculionoidea ON, egg, indep body pgls
+COL1_body_egg_ON_genus_pgls <- COL1_body_egg_ON_genus %>% 
+    select(genus,logvol,logon,logbody,group) %>% 
+    rename(rank = genus, trait1 = logon, trait2 = logvol, indep = logbody) 
 
-### Apoidea pgls
-HYM_pgls <- HYM_body_egg_ON_genus %>% select(genus,logvol,logon,logbody,group) %>% rename(rank = genus, trait1 = logon, trait2 = logvol, indep = logbody)
-hym1 <- run_plotting_resid_pgls(HYM_pgls,tree,"HYM") + xlab("residual of ovariole number") +
-  ylab(element_blank()) + ggtitle("Hymenoptera")
+pgls_results_COL1 <- run_all_taxa_resid_pgls(COL1_body_egg_ON_genus_pgls,tree)
+
+theme_update(plot.title = element_text(hjust = 0.5))
+col1 <- run_plotting_resid_pgls(COL1_body_egg_ON_genus_pgls,tree,"COL1") + 
+    xlab("residual of ovariole number") +
+    ylab("residual of egg volume") + 
+    ggtitle("Coleoptera: Curculionoidea")
+
+### Apoidea ON, egg, indep body pgls
+HYM_body_egg_ON_genus_pgls <- HYM_body_egg_ON_genus %>% 
+    select(genus,logvol,logon,logbody,group) %>% 
+    rename(rank = genus, trait1 = logon, trait2 = logvol, indep = logbody) 
+
+pgls_results_HYM <- run_all_taxa_resid_pgls(HYM_body_egg_ON_genus_pgls,tree)
+
+hym1 <- run_plotting_resid_pgls(HYM_body_egg_ON_genus_pgls,tree,"HYM") + xlab("residual of ovariole number") +
+ylab(element_blank()) + ggtitle("Hymenoptera")
 
 grid.arrange(col1,hym1,ncol=2)
 ```
 
 ```{r PGLS-body-plot, fig.cap="**Adult body size vs ovariole number.** Adult body weight compared at the genus level (left), and average adult body length compared at the family level (right).", fig.width=6, fig.height=3, include=TRUE}
-### Gilbert body weight vs ON pgls
-ON_body_gilbert_genus_pgls <- egg_ON_gilbert_genus %>% select(genus,logon,logweight,group) %>% mutate(rank = genus, trait1 = logon, trait2 = logweight)
-gilbert_body <- run_plotting_pgls(ON_body_gilbert_genus_pgls,tree,"body_gilbert") + xlab(bquote('ovariole number,'~log[10])) +
-  ylab(bquote('adult dry body weight (g),'~log[10]))
+### body length vs ON, family level
+ON_body_family_pgls <- body_egg_ON_full %>% 
+    select(rank,logon,logbody,group) %>% 
+    rename(trait1 = logon, trait2 = logbody) 
 
-### PGLS body length vs ON, family averages
-ON_body_family_pgls <- body_egg_ON_full %>% select(rank,logon,logbody,group) %>% rename(trait1 = logon, trait2 = logbody)
-family_body <- run_plotting_pgls(ON_body_family_pgls,fam_tree,"body_egg_ON_family") + xlab(bquote('average ovariole number,'~log[10])) +
-  ylab(bquote('average adult body length (mm),'~log[10]))
+pgls_results_body_ON_family <- run_all_taxa_pgls(ON_body_family_pgls,fam_tree)
+
+family_body <- run_plotting_pgls(ON_body_family_pgls,fam_tree,"body_egg_ON_family") + 
+    xlab(bquote('average ovariole number,'~log[10])) +
+    ylab(bquote('average adult body length (mm),'~log[10]))
+
+### Gilbert body weight vs ON, species level
+pgls_results_body_gilbert_name <- run_all_taxa_pgls(egg_ON_gilbert_name %>% 
+    select(genus,logon,logweight,group) %>% 
+    mutate(rank = genus, trait1 = logon, trait2 = logweight) ,
+    tree)
+
+### Gilbert body weight, genus level
+ON_body_gilbert_genus_pgls <- egg_ON_gilbert_genus %>% 
+    select(genus,logon,logweight,group) %>% 
+    mutate(rank = genus, trait1 = logon, trait2 = logweight) 
+
+pgls_results_body_gilbert_genus <- run_all_taxa_pgls(ON_body_gilbert_genus_pgls,tree)
+
+gilbert_body <- run_plotting_pgls(ON_body_gilbert_genus_pgls,tree,"body_gilbert") + xlab(bquote('ovariole number,'~log[10])) +
+ylab(bquote('adult dry body weight (g),'~log[10]))
+
+### Curculionoidea body vs ON
+pgls_results_body_COL1 <- run_all_taxa_pgls(COL1_body_egg_ON_genus %>% 
+    select(genus,logon,logbody,group) %>% 
+    rename(rank = genus, trait1 = logon, trait2 = logbody) ,
+    tree)
+
+### Orthoptera body vs ON
+pgls_results_body_ORT <- run_all_taxa_pgls(ORT_body_egg_ON_genus %>% 
+    select(genus,logon,logbody,group) %>% 
+    rename(rank = genus, trait1 = logon, trait2 = logbody) ,
+    tree)
+
+### Apoidea body vs ON
+pgls_results_body_HYM <- run_all_taxa_pgls(HYM_body_egg_ON_genus %>% 
+    select(genus,logon,logbody,group) %>% 
+    rename(rank = genus, trait1 = logon, trait2 = logbody) ,
+    tree)
+
+### Drosophilidae body vs ON
+pgls_results_body_DIP <- run_all_taxa_pgls (DIP_body_egg_ON_name %>% 
+    select(name,logon,logbody,group) %>% 
+    rename(rank = name, trait1 = logon, trait2 = logbody) ,
+    dros_tree)
 
 grid.arrange(gilbert_body,family_body,ncol=2) 
 ```
 
+```{r PGLS-fecundity-name, fig.cap="**Lifetime fecundity vs ovariole number, matching records at the species level.**", fig.width=3, fig.height=3, include=TRUE}
+### Gilbert fecundity vs ON name
+fecundity_name_pgls <-  ON_gilbert_name %>% 
+    select(genus,logfecundity,logon,group) %>% 
+    mutate(rank = genus, trait1 = logon, trait2= logfecundity) 
+
+pgls_results_fecundity_name <- run_all_taxa_pgls(fecundity_name_pgls,tree)
+
+run_plotting_pgls(fecundity_name_pgls,tree,"fecundity_name") + 
+    xlab(bquote("ovariole number,"~log[10])) +
+    ylab(bquote("lifetime fecundity,"~log[10]))
+```
+
 ```{r PGLS-fecundity-genus}
-### Gilbert fecundity vs ON, genus level
-fecundity_genus_pgls <-  ON_gilbert_genus %>% select(genus,fecundity,on,group) %>% mutate(rank = genus, trait1 = on, trait2= fecundity) 
+### Gilbert fecundity vs ON genus
+fecundity_genus_pgls <-  ON_gilbert_genus %>% 
+    select(genus,fecundity,on,group) %>% 
+    mutate(rank = genus, trait1 = on, trait2= fecundity)  
+
+pgls_results_fecundity_genus <- run_all_taxa_pgls(fecundity_genus_pgls,tree)
+
 pdf("manuscript_figures/panels/FigFecundity.pdf",height=4,width=4,useDingbats = F)
-  g1 <- ggplot(fecundity_genus_pgls,aes(x = trait1, y = trait2, color = group)) +
-      geom_point() +
-      scale_color_manual(values = mrk) +
-      scale_x_log10() +
-      scale_y_log10() +
-      theme(legend.position = "none") +
-      xlab('ovariole number') +
-      ylab('lifetime fecundity')
-  print(g1)
+g1 <- ggplot(fecundity_genus_pgls,aes(x = trait1, y = trait2, color = group)) +
+    geom_point() +
+    scale_color_manual(values = mrk) +
+    scale_x_log10() +
+    scale_y_log10() +
+    theme(legend.position = "none") +
+    xlab('ovariole number') +
+    ylab('lifetime fecundity')
+print(g1)
 invisible(dev.off())
 ```
 
-```{r PGLS-fecundity-name, fig.cap="**Lifetime fecundity vs ovariole number, matching records at the species level.**", fig.width=3, fig.height=3, include=TRUE}
-### Gilbert fecundity vs ON, species level
-fecundity_name_pgls <-  ON_gilbert_name %>% select(genus,logfecundity,logon,group) %>% mutate(rank = genus, trait1 = logon, trait2= logfecundity)
-run_plotting_pgls(fecundity_name_pgls,tree,"fecundity_name") + xlab(bquote("ovariole number,"~log[10])) +
-  ylab(bquote("lifetime fecundity,"~log[10]))
+```{r PGLS-posterior-egg-ON, include=TRUE}
+# retrieve results from over the posterior distribution
+get_pgls_table <- function(dist) {
+    table <- round(data.frame(
+    slope_min = min(sapply(dist,function(x) {x$coefficients[[2]]})),
+    slope_max = max(sapply(dist,function(x) {x$coefficients[[2]]})),
+    pval_sig = sum(sapply(dist,function(x) {x$tTable[[8]] < 0.01})),
+    taxa = min(sapply(dist,function(x) {x$dims$N}))),
+    4)
+    return(table)
+}
+
+sp <- " -- " # separator in tables
+
+### PGLS TABLE EGG SIZE OVARIOLE NUMBER
+load("analysis/pgls_results_Fall2020/run_posterior_pgls_egg_size_ovariole_number.RData")
+
+egg_ON_posterior_results <- list(allometry_egg_ON_name,
+    allometry_egg_ON_genus,
+    allometry_gilbert_name,
+    allometry_gilbert_genus,
+    allometry_body_egg_ON_family)
+
+egg_ON_pgls_results <- list(pgls_results_egg_ON_name,
+    pgls_results_egg_ON_genus,
+    pgls_results_gilbert_name,
+    pgls_results_gilbert_genus,
+    pgls_results_body_egg_ON_family)
+
+egg_ON_pgls_analysis_names <- c("ovariole number vs egg volume",
+    "ovariole number vs egg volume",
+    "ovariole number vs egg volume, residuals to body weight",
+    "ovariole number vs egg volume, residuals to body weight",
+    "ovariole number vs egg volume, residuals to body length")
+
+egg_ON_taxonomic_levels <- c("species","genus","species","genus","family")
+
+egg_ON_table <- as.data.frame(bind_rows(lapply(egg_ON_posterior_results,get_pgls_table))) %>% mutate(analysis = egg_ON_pgls_analysis_names,
+        "taxonomic level" = egg_ON_taxonomic_levels,
+        "slope" = paste(sprintf("%.3f",slope_min),sprintf("%.3f",slope_max),sep=sp),
+        "MCC p-value" = gsub("0.000","<0.001",sprintf("%.3f",sapply(egg_ON_pgls_results,function(x){x$tTable[[8]]}))),
+        "num. sig. / 1000" = pval_sig,
+        "taxa" = taxa)
+knitr::kable(egg_ON_table %>% select(c("analysis","taxonomic level","slope","MCC p-value","num. sig. / 1000","taxa")),
+        "latex",
+        caption="Results of PGLS analysis of ovariole number and egg size across a posterior distribution", booktabs = T, linesep = "") %>% 
+    kableExtra::kable_styling(latex_options = "striped") %>%
+    kableExtra::column_spec(1, width = "16em") %>%
+    kableExtra::kable_styling(latex_options = "hold_position")  %>%
+    kableExtra::kable_styling(font_size = 8) 
 ```
+
+```{r PGLS-posterior-clade, include=TRUE}
+### PGLS TABLE SUBCLADE
+load("analysis/pgls_results_Fall2020/run_posterior_pgls_subclade.RData")
+
+clade_posterior_results <- list(allometry_DIP,
+    allometry_ORT,
+    allometry_COL1,
+    allometry_HYM)
+
+clade_pgls_results <- list(pgls_results_DIP,
+    pgls_results_ORT,
+    pgls_results_COL1,
+    pgls_results_HYM)
+
+clade_pgls_analysis_names <- c("Drosophilidae ovariole number vs egg volume, residuals to thorax length",
+    "Orthoptera ovariole number vs egg volume, residuals to body length",
+    "Curculionoidea ovariole number vs egg volume, residual to elytra length",
+    "Hymenoptera ovariole number vs egg volume, residuals to mesosoma width")
+
+clade_taxonomic_levels <- c("species","genus","genus","genus")
+
+clade_table <- as.data.frame(bind_rows(lapply(clade_posterior_results,get_pgls_table))) %>% mutate(analysis = clade_pgls_analysis_names,
+        "taxonomic level" = clade_taxonomic_levels,
+        "slope" = paste(sprintf("%.3f",slope_min),sprintf("%.3f",slope_max),sep=sp),
+        "MCC p-value" = gsub("0.000","<0.001",sprintf("%.3f",sapply(clade_pgls_results,function(x){x$tTable[[8]]}))),
+        "num. sig. / 1000" = pval_sig,
+        "taxa" = taxa)
+knitr::kable(clade_table %>% select(c("analysis","taxonomic level","slope","MCC p-value","num. sig. / 1000","taxa")),
+        "latex",
+        caption="Results of PGLS analysis of ovariole number and egg size across a posterior distribution", booktabs = T, linesep = "") %>% 
+    kableExtra::kable_styling(latex_options = "striped") %>%
+    kableExtra::column_spec(1, width = "16em") %>%
+    kableExtra::kable_styling(latex_options = "hold_position")  %>%
+    kableExtra::kable_styling(font_size = 8) 
+```
+
+```{r PGLS-posterior-body, include=TRUE}
+### PGLS TABLE BODY SIZE
+load("analysis/pgls_results_Fall2020/run_posterior_pgls_body_size.RData")
+
+body_posterior_results <- list(allometry_body_gilbert_name,
+    allometry_body_gilbert_genus,
+    allometry_body_ON_family,
+    allometry_body_DIP,
+    allometry_body_ORT,
+    allometry_body_COL1,
+    allometry_body_HYM)
+
+body_pgls_results <- list(pgls_results_body_gilbert_name,
+    pgls_results_body_gilbert_genus,
+    pgls_results_body_ON_family,
+    pgls_results_body_DIP,
+    pgls_results_body_ORT,
+    pgls_results_body_COL1,
+    pgls_results_body_HYM)
+
+body_pgls_analysis_names <- c("ovariole number vs body length",
+    "ovariole number vs body weight",
+    "ovariole number vs body weight",
+    "Drosophilidae ovariole number vs thorax length",
+    "Orthoptera ovariole number vs body length",
+    "Curculionoidea ovariole number vs elytra length",
+    "Hymenoptera ovariole number vs mesosoma width")
+
+body_taxonomic_levels <- c("species","genus","family","species","genus","genus","genus")
+
+
+body_table <- as.data.frame(bind_rows(lapply(body_posterior_results,get_pgls_table))) %>% mutate(analysis = body_pgls_analysis_names,
+        "taxonomic level" = body_taxonomic_levels,
+        "slope" = paste(sprintf("%.3f",slope_min),sprintf("%.3f",slope_max),sep=sp),
+        "MCC p-value" = gsub("0.000","<0.001",sprintf("%.3f",sapply(body_pgls_results,function(x){x$tTable[[8]]}))),
+        "num. sig. / 1000" = pval_sig,
+        "taxa" = taxa)
+knitr::kable(body_table %>% select(c("analysis","taxonomic level","slope","MCC p-value","num. sig. / 1000","taxa")),
+        "latex",
+        caption="Results of PGLS analysis of ovariole number and body size across a posterior distribution", booktabs = T, linesep = "") %>% 
+    kableExtra::kable_styling(latex_options = "striped") %>%
+    kableExtra::column_spec(1, width = "16em") %>%
+    kableExtra::kable_styling(latex_options = "hold_position")  %>%
+    kableExtra::kable_styling(font_size = 8) 
+```
+
+```{r PGLS-posterior-fecundity, include=TRUE}
+### PGLS TABLE FECUNDITY
+load("analysis/pgls_results_Fall2020/run_posterior_pgls_fecundity.RData")
+
+fecundity_posterior_results <- list(allometry_fecundity_name,
+    allometry_fecundity_genus)
+
+fecundity_pgls_results <- list(pgls_results_fecundity_name,
+    pgls_results_fecundity_genus)
+
+fecundity_pgls_analysis_names <- c("ovariole number vs lifetime fecundity",
+    "ovariole number vs lifetime fecundity")
+
+fecundity_taxonomic_levels <- c("species","genus")
+
+fecundity_table <- as.data.frame(bind_rows(lapply(fecundity_posterior_results,get_pgls_table))) %>% mutate(analysis = fecundity_pgls_analysis_names,
+        "taxonomic level" = fecundity_taxonomic_levels,
+        "slope" = paste(sprintf("%.3f",slope_min),sprintf("%.3f",slope_max),sep=sp),
+        "MCC p-value" = gsub("0.000","<0.001",sprintf("%.3f",sapply(fecundity_pgls_results,function(x){x$tTable[[8]]}))),
+        "num. sig. / 1000" = pval_sig,
+        "taxa" = taxa)
+knitr::kable(fecundity_table %>% select(c("analysis","taxonomic level","slope","MCC p-value","num. sig. / 1000","taxa")),
+        "latex",
+        caption="Results of PGLS analysis of ovariole number and fecundity across a posterior distribution", booktabs = T, linesep = "") %>% 
+    kableExtra::kable_styling(latex_options = "striped") %>%
+    kableExtra::column_spec(1, width = "16em") %>%
+    kableExtra::kable_styling(latex_options = "hold_position")  %>%
+    kableExtra::kable_styling(font_size = 8) 
+
+```
+
+\clearpage
 
 # Evolution of nurse cells
 
@@ -323,15 +672,15 @@ load("analysis/mode_of_oogenesis_results_June2020/reconstruct_ancestral_ovary_mo
 ovary_nums <- data.frame(num=as.numeric(as.factor(unique(ovary_table$ovary))),ovary=unique(ovary_table$ovary),stringsAsFactors=F)
 
 est_tips <- data.frame("state1" = round(pp$tip.states,0)[,1],
-            "state2" = round(pp$tip.states,0)[,2],
-            "state3" = round(pp$tip.states,0)[,3],
-            "state4" = round(pp$tip.states,0)[,4]) %>% 
-      mutate(discrete = ifelse(state1 == 1,1,
-                          ifelse(state2 == 1,2,
-                            ifelse(state3 == 1,3,4))),
-          genus = pp$phy$tip.label) %>% 
-      select(genus,discrete) %>% 
-      mutate("ovary_regime"=plyr::mapvalues(discrete,ovary_nums$num,ovary_nums$ovary))
+    "state2" = round(pp$tip.states,0)[,2],
+    "state3" = round(pp$tip.states,0)[,3],
+    "state4" = round(pp$tip.states,0)[,4]) %>% 
+mutate(discrete = ifelse(state1 == 1,1,
+    ifelse(state2 == 1,2,
+    ifelse(state3 == 1,3,4))),
+genus = pp$phy$tip.label) %>% 
+select(genus,discrete) %>% 
+mutate("ovary_regime"=plyr::mapvalues(discrete,ovary_nums$num,ovary_nums$ovary))
 
 ovary_cols <- c("black","#949494","#00c2c2","red")
 names(ovary_cols) <- c("Mstar","P","PM","TM")
@@ -345,8 +694,8 @@ add.scale.bar()
 pp_original_records <- drop.tip(pp$phy,tree_dataset %>% filter(!(genus %in% new_ovary_table$genus)) %>% pull(genus))
 branch_cols <- c(as.integer(plyr::mapvalues(pp_original_records$tip.label,est_tips$genus,est_tips$discrete,warn_missing=F)),pp_original_records$node.label)
 pdf("manuscript_figures/panels/FigBuning_Reconstruction.pdf",height=4.75,width=2.5,useDingbats = F)
-  plot(pp_original_records,show.tip.label=F,edge.width=1,edge.col=plyr::mapvalues(branch_cols[pp_original_records$edge[,2]],seq(1:length(ovary_cols)),ovary_cols))
-  add.scale.bar()
+plot(pp_original_records,show.tip.label=F,edge.width=1,edge.col=plyr::mapvalues(branch_cols[pp_original_records$edge[,2]],seq(1:length(ovary_cols)),ovary_cols))
+add.scale.bar()
 invisible(dev.off())
 ```
 
@@ -357,40 +706,40 @@ Using these 106 records for ovary type, we reconstructed the ancestral state at 
 ```{r ovary-model-comparison, include=TRUE}
 # get corrected AIC values from results
 get_aicc <- function(ou_res) {
-  BM1 <- sapply(ou_res,function(x){x[[1]]$AICc})
-  BMS <- sapply(ou_res,function(x){x[[2]]$AICc})
-  OU1 <- sapply(ou_res,function(x){x[[3]]$AICc})
-  OUM <- sapply(ou_res,function(x){x[[4]]$AICc})
-  ouwie_res <- data.frame(BM1 = BM1, BMS = BMS, OU1 = OU1, OUM = OUM) %>%
-        rowwise() %>%
-        mutate(min = min(BM1,BMS,OU1,OUM)) %>%
-        ungroup() %>%
-        mutate(dBM1 = BM1 - min,
-          dBMS = BMS - min,
-          dOU1 = OU1 - min,
-          dOUM = OUM - min,
-          bm1_bms = (dBM1 - dBMS > 2),
-          bm1_ou1 = (dBM1 - dOU1 > 2),
-          bm1_oum = (dBM1 - dOUM > 2),
-          ou1_oum = (dOU1 - dOUM > 2))
-  return(ouwie_res)
+    BM1 <- sapply(ou_res,function(x){x[[1]]$AICc})
+    BMS <- sapply(ou_res,function(x){x[[2]]$AICc})
+    OU1 <- sapply(ou_res,function(x){x[[3]]$AICc})
+    OUM <- sapply(ou_res,function(x){x[[4]]$AICc})
+    ouwie_res <- data.frame(BM1 = BM1, BMS = BMS, OU1 = OU1, OUM = OUM) %>%
+    rowwise() %>%
+    mutate(min = min(BM1,BMS,OU1,OUM)) %>%
+    ungroup() %>%
+    mutate(dBM1 = BM1 - min,
+    dBMS = BMS - min,
+    dOU1 = OU1 - min,
+    dOUM = OUM - min,
+    bm1_bms = (dBM1 - dBMS > 2),
+    bm1_ou1 = (dBM1 - dOU1 > 2),
+    bm1_oum = (dBM1 - dOUM > 2),
+    ou1_oum = (dOU1 - dOUM > 2))
+    return(ouwie_res)
 }
 
 # calculate the mean AICc value over the posterior distribution
 get_mean_aicc <- function(res) {
-  mean_ouwie_res <- res %>% select(BM1,BMS,OU1,OUM,dBM1,dBMS,dOU1,dOUM) %>%       
+    mean_ouwie_res <- res %>% select(BM1,BMS,OU1,OUM,dBM1,dBMS,dOU1,dOUM) %>%       
     group_by() %>%
     summarize_all("mean")
-  return(mean_ouwie_res)
+    return(mean_ouwie_res)
 }
 
 # count the number of AICc > 2
 get_count_aicc <- function(res) {
-  count_ouwie_res <- data.frame(bm1_bms = sum(res$bm1_bms),
-          bm1_ou1 = sum(res$bm1_ou1),
-          bm1_oum = sum(res$bm1_oum),
-          ou1_oum = sum(res$ou1_oum))
-  return(count_ouwie_res)
+    count_ouwie_res <- data.frame(bm1_bms = sum(res$bm1_bms),
+    bm1_ou1 = sum(res$bm1_ou1),
+    bm1_oum = sum(res$bm1_oum),
+    ou1_oum = sum(res$ou1_oum))
+    return(count_ouwie_res)
 }
 
 # use those functions to evaluate results for each trait of interest
@@ -427,36 +776,36 @@ on_count_res <- get_count_aicc(on_res)
 
 # count the number of taxa in each analysis
 sample_size <- tibble("analysis name" = c("ovariole number","egg volume","egg aspect ratio","egg asymmetry","egg curvature"),
-            "taxa" = c(nrow(on_results[[1]][[1]]$data),
-              nrow(egg_results[[1]][[1]]$data),
-              nrow(ar_results[[1]][[1]]$data),
-              nrow(asym_results[[1]][[1]]$data),
-              nrow(curv_results[[1]][[1]]$data)))
+    "taxa" = c(nrow(on_results[[1]][[1]]$data),
+    nrow(egg_results[[1]][[1]]$data),
+    nrow(ar_results[[1]][[1]]$data),
+    nrow(asym_results[[1]][[1]]$data),
+    nrow(curv_results[[1]][[1]]$data)))
 
 # write table
 mean_table <- rbind(on_mean_res,egg_mean_res,ar_mean_res,asym_mean_res,curv_mean_res) %>%
-  mutate("analysis name" = c("ovariole number","egg volume","egg aspect ratio","egg asymmetry","egg curvature")) %>%
-  select("analysis name",BM1,BMS,OU1,OUM)
+mutate("analysis name" = c("ovariole number","egg volume","egg aspect ratio","egg asymmetry","egg curvature")) %>%
+select("analysis name",BM1,BMS,OU1,OUM)
 knitr::kable(mean_table, "latex",caption="Average corrected AIC (AICc) value from model comparison", booktabs = T, linesep = "") %>%
-  kableExtra::kable_styling(latex_options = "striped") %>%
-  kableExtra::column_spec(1, width = "10em") %>%
-  kableExtra::kable_styling(latex_options = "hold_position")
+kableExtra::kable_styling(latex_options = "striped") %>%
+kableExtra::column_spec(1, width = "10em") %>%
+kableExtra::kable_styling(latex_options = "hold_position")
 
 ```
 
 ```{r ovary-model-comparison-count, include=TRUE}
 count_table <- rbind(on_count_res,egg_count_res,ar_count_res,asym_count_res,curv_count_res)  %>%
-  mutate("analysis name" = c("ovariole number","egg volume","egg aspect ratio","egg asymmetry","egg curvature")) %>%
-  select("analysis name",bm1_bms,bm1_ou1,bm1_oum,ou1_oum) %>%
-  rename("BMS vs. BM1" = bm1_bms,
-        "OU1 vs. BM1" = bm1_ou1,
-        "OUM vs. BM1" = bm1_oum,
-        "OUM vs. OU1" = ou1_oum) %>% 
-  left_join(.,sample_size,by="analysis name")
+mutate("analysis name" = c("ovariole number","egg volume","egg aspect ratio","egg asymmetry","egg curvature")) %>%
+select("analysis name",bm1_bms,bm1_ou1,bm1_oum,ou1_oum) %>%
+rename("BMS vs. BM1" = bm1_bms,
+    "OU1 vs. BM1" = bm1_ou1,
+    "OUM vs. BM1" = bm1_oum,
+    "OUM vs. OU1" = ou1_oum) %>% 
+left_join(.,sample_size,by="analysis name")
 knitr::kable(count_table, "latex",caption="Results of model comparison analysis over posterior distribution, showing the number of iterations out of 100 where the difference in model fit ($\\Delta$AICc) was greater than 2.", booktabs = T, linesep = "") %>%
-  kableExtra::kable_styling(latex_options = "striped") %>%
-  kableExtra::column_spec(1, width = "10em") %>%
-  kableExtra::kable_styling(latex_options = "hold_position")
+kableExtra::kable_styling(latex_options = "striped") %>%
+kableExtra::column_spec(1, width = "10em") %>%
+kableExtra::kable_styling(latex_options = "hold_position")
 ```
 
 Using the ancestral state reconstruction of evolutionary shifts in the mode of oogenesis, we inferred the most likely mode of oogenesis for all nodes and unobserved extant tips in the phylogeny (Fig. \ref{fig:reconstruct-ovary}). We then compared the fit of models of trait evolution that take into account these shifts in oogenesis mode against those that do not. These comparisons were performed with the R package OUwie[@beaulieu2012modeling]  (version `r packageVersion('OUwie')`). 
@@ -475,13 +824,13 @@ These comparisons were repeated 100 times over a posterior distribution of trees
 # set up trait and tree for arbutus analysis
 arbutus_tree <- drop.tip(tree,tree$tip.label[!(tree$tip.label %in% ON$genus)])
 arbutus_trait <- ON %>% filter(genus %in% arbutus_tree$tip.label) %>%
-  group_by(genus) %>% slice(1L)
+group_by(genus) %>% slice(1L)
 arbutus_trait_vec <- arbutus_trait %>% pull(logon)
 names(arbutus_trait_vec) <- arbutus_trait$genus
 
 # fit a Brownian Motion model
 fit_bm <- arbutus_trait_vec[order(match(names(arbutus_trait_vec),arbutus_tree$tip.label))] %>%
-  fitContinuous(dat = ., phy =arbutus_tree, model="BM")
+fitContinuous(dat = ., phy =arbutus_tree, model="BM")
 
 # run a parametric bootstrap of the model with arbutus
 arbutus_fit_bm <- arbutus(fit_bm)
@@ -515,15 +864,15 @@ name <- paste("BAMM",trait_of_interest,sep="_")
 
 ### Set up the data frame for analysis
 dat <- dat_of_interest[sample(nrow(dat_of_interest)),] %>% # shuffle the dataset
-  mutate(raw_trait = eval(parse(text = trait_of_interest))) %>%  # pull out genus and trait
-  filter(!(is.na(raw_trait))) %>% select(genus,raw_trait) %>% # remove missing data
-  group_by(genus) %>% summarize(mean_trait = mean(raw_trait)) %>% # calculate mean per genus
-  mutate(trait = log10(mean_trait)) # transform the data
+mutate(raw_trait = eval(parse(text = trait_of_interest))) %>%  # pull out genus and trait
+filter(!(is.na(raw_trait))) %>% select(genus,raw_trait) %>% # remove missing data
+group_by(genus) %>% summarize(mean_trait = mean(raw_trait)) %>% # calculate mean per genus
+mutate(trait = log10(mean_trait)) # transform the data
 
 ### Format the data frame for BAMM
 bmm_red <- dat %>% mutate(taxa = genus) %>%
-    filter(genus %in% tree$tip.label) %>%
-    select(genus,trait)
+filter(genus %in% tree$tip.label) %>%
+select(genus,trait)
 
 ### Use only taxa with phenotypic data
 bmm <- drop.tip(tree,setdiff(tree$tip.label,bmm_red$genus))
@@ -559,7 +908,7 @@ Given the result that our dataset contains substantial rate heterogeneity, we id
 mcmcout <- read.csv("analysis/BAMM_results_June2020/bamm_mcmc_out.txt", header=T) 
 
 #pdf(file=paste(name,"_convergence.pdf",sep=""),width=10,height=5)
-  plot(mcmcout$logLik ~ mcmcout$generation,pch=16,cex=0.5,xlab="MCMC generation",ylab="Log-likelihood")
+plot(mcmcout$logLik ~ mcmcout$generation,pch=16,cex=0.5,xlab="MCMC generation",ylab="Log-likelihood")
 #dev.off()
 ```
 
@@ -571,7 +920,7 @@ es_logl <- sapply(bi,function(x){effectiveSize(mcmcout[(x * nrow(mcmcout)):nrow(
 burnin <- bi[which.max(es_logl)]
 
 #pdf(file=paste(name,"_effectiveSize.pdf",sep=""),width=10,height=5)
-  plot(y=es_logl,x=bi,pch=16,cex=0.5,xlab="Proportion designated as burn-in",ylab="Effective sample size of log-likelihood")
+plot(y=es_logl,x=bi,pch=16,cex=0.5,xlab="Proportion designated as burn-in",ylab="Effective sample size of log-likelihood")
 #dev.off()
 
 burnstart <- floor(burnin * nrow(mcmcout))
@@ -596,8 +945,8 @@ edata <- getEventData(bamm_tree, eventdata = paste("analysis/BAMM_results_June20
 ```{r BAMM-analysis-results, include=TRUE, fig.cap="**Best rate shift configuration from BAMM trait diversification analysis on ovariole number.** Purple = low rate of evolution, yellow = high rate of evolution.", fig.width=5, fig.height=10}
 # plot the best tree as a phylorate plot
 #pdf(file=paste(name,"_ratesplot.pdf",sep=""),width=10,height=12)
-  pb_legend <- png::readPNG("analysis/datafiles/BAMM_legend.png")
-  grid.arrange(ggplotify::as.grob(~plot(edata,lwd=2,legend=F,labels=F,cex=0.2,logcolor=T,breaksmethod="jenks",pal=c("#0D0887", "#CC4678", "#F0F921"))),rasterGrob(pb_legend),ncol=2,widths=c(10,1)) 
+pb_legend <- png::readPNG("analysis/datafiles/BAMM_legend.png")
+grid.arrange(ggplotify::as.grob(~plot(edata,lwd=2,legend=F,labels=F,cex=0.2,logcolor=T,breaksmethod="jenks",pal=c("#0D0887", "#CC4678", "#F0F921"))),rasterGrob(pb_legend),ncol=2,widths=c(10,1)) 
 #dev.off()
 ```
 
@@ -611,8 +960,8 @@ lowrate <- 1e-04
 
 # plot rates
 #pdf(file=paste(name,"_meanrates.pdf",sep=""),width=10,height=5)
-  hist(log10(brlen$phy$edge.length),breaks=200,col="black",xlab=bquote('Mean branch rate of trait diversification,'~log[10]),main="")
-  abline(v = log10(lowrate), col="black", lwd=3, lty=2)
+hist(log10(brlen$phy$edge.length),breaks=200,col="black",xlab=bquote('Mean branch rate of trait diversification,'~log[10]),main="")
+abline(v = log10(lowrate), col="black", lwd=3, lty=2)
 #dev.off()
 ```
 
@@ -621,8 +970,8 @@ The best configuration of rate shift regimes shows multiple independent clades w
 ```{r BAMM-analysis-mainfig}
 # bin the rates into above or below the threshold
 regimes <- data.frame(node=brlen$phy$edge[,2], # use the terminal nodes of each edge as the identifier
-          brlen=brlen$phy$edge.length) %>% # pull the branch length = mean rate
-      mutate(regime = ifelse(brlen<lowrate,"below","above")) # bin rates
+    brlen=brlen$phy$edge.length) %>% # pull the branch length = mean rate
+mutate(regime = ifelse(brlen<lowrate,"below","above")) # bin rates
 mrca_node <- data.frame(node=getMRCA(bamm_tree,bamm_tree$tip.label),brlen=NA,regime="above") # set the root node as above
 regimes <- rbind(regimes,mrca_node) %>% arrange(node) # add root
 
@@ -639,9 +988,9 @@ branch_cols <- plyr::mapvalues(regimes$regime[node_tree$edge[,2]],c("above","bel
 
 ### Assess trait evolution using the rate regimes
 on_reg <- regimes[1:length(node_tree$tip.label),] %>% mutate(genus = node_tree$tip.label) %>% # pull out tips
-  left_join(.,(ON %>% select(genus,on,group)),by="genus") %>% # add in trait data
-  rename(rate = "brlen") %>% # recode for geiger
-  select(genus,on,regime,rate,group)
+left_join(.,(ON %>% select(genus,on,group)),by="genus") %>% # add in trait data
+rename(rate = "brlen") %>% # recode for geiger
+select(genus,on,regime,rate,group)
 
 # plot panels for figure:Diversity
 size <- 0.8
@@ -668,22 +1017,22 @@ g2 <- ggplot(ON,aes(x = on, fill=group)) + geom_histogram(bins=125) + scale_fill
 g3 <- ggplot(ON %>% filter(genus %in% node_tree$tip.label),aes(x = on, fill=group)) + geom_histogram(bins=125) + scale_fill_manual(values=mrk) + scale_x_log10() + theme(legend.position = "none") + xlab('ovariole number')
 
 pdf("manuscript_figures/panels/FigDiversity_Phylogeny.pdf",height=7,width=3.5,useDingbats = F)
-  print(p2)
+print(p2)
 invisible(dev.off())
 pdf("manuscript_figures/panels/FigDiversity_Phylogeny_Wide.pdf",height=7,width=3.5,useDingbats = F)
-  grid.draw(p2t)
+grid.draw(p2t)
 invisible(dev.off())
 pdf("manuscript_figures/panels/FigDiversity_Phylogeny_NoRegime.pdf",height=7,width=3.5,useDingbats = F)
-  grid.draw(p02t) 
+grid.draw(p02t) 
 invisible(dev.off())
 pdf("manuscript_figures/panels/FigDiversity_Jitter.pdf",height=3.25,width=3.25,useDingbats = F)
-  print(g1)
+print(g1)
 invisible(dev.off())
 pdf("manuscript_figures/panels/FigDiversity_Histogram.pdf",height=3.25,width=4,useDingbats = F)
-  print(g2)
+print(g2)
 invisible(dev.off())
 pdf("manuscript_figures/panels/FigDiversity_Histogram_Short.pdf",height=1.5,width=2.75,useDingbats = F)
-  print(g3)
+print(g3)
 invisible(dev.off())
 ```
 
@@ -692,10 +1041,10 @@ invisible(dev.off())
 ```{r BM-model-comparison}
 # set up the data frame to compare models
 ouwie_on_reg <- on_reg[sample(nrow(on_reg)),] %>% # shuffle the dataset
-    group_by(genus) %>% slice(1L) %>% ungroup() %>% # choose one representative per genus
-    mutate(species = genus,discrete = regime,continuous = log10(on)) %>% #transform the data
-    select(species,discrete,continuous) %>% 
-    as.data.frame()
+group_by(genus) %>% slice(1L) %>% ungroup() %>% # choose one representative per genus
+mutate(species = genus,discrete = regime,continuous = log10(on)) %>% #transform the data
+select(species,discrete,continuous) %>% 
+as.data.frame()
 
 ### Compare BM models of evolution with and without regimes
 BMS <- OUwie(node_tree,ouwie_on_reg,model="BMS",simmap.tree=FALSE,diagn=FALSE,root.station=F) #rates per regime
@@ -711,14 +1060,14 @@ tree <- genus_mcc_tree
 trait_of_interest <- "vol"
 dat_of_interest <- egg_database
 dat <- dat_of_interest[sample(nrow(dat_of_interest)),] %>% # shuffle the dataset
-  mutate(raw_trait = eval(parse(text = trait_of_interest))) %>%  # pull out genus and trait
-  filter(!(is.na(raw_trait))) %>% select(genus,raw_trait) %>% # remove missing data
-  group_by(genus) %>% summarize(mean_trait = mean(raw_trait)) %>% # calculate mean per genus
-  mutate(trait = log10(mean_trait)) # transform the data
+mutate(raw_trait = eval(parse(text = trait_of_interest))) %>%  # pull out genus and trait
+filter(!(is.na(raw_trait))) %>% select(genus,raw_trait) %>% # remove missing data
+group_by(genus) %>% summarize(mean_trait = mean(raw_trait)) %>% # calculate mean per genus
+mutate(trait = log10(mean_trait)) # transform the data
 
 bmm_red <- dat %>% mutate(taxa = genus) %>%
-    filter(genus %in% tree$tip.label) %>%
-    select(genus,trait)
+filter(genus %in% tree$tip.label) %>%
+select(genus,trait)
 bmm <- drop.tip(tree,setdiff(tree$tip.label,bmm_red$genus))
 
 #write.table(bmm_red,file="egg_bamm_trait.txt",sep="\t",row.names=F,col.names=F,quote=F)
@@ -759,34 +1108,34 @@ egg_edata <- getEventData(egg_bamm_tree, eventdata = paste("analysis/BAMM_result
 ```
 
 ```{r BAMM-egg-plot, include=TRUE, fig.cap="**Best rate shift configuration from BAMM trait diversification analysis on egg volume.** Purple = low rate of evolution, yellow = high rate of evolution.", fig.width=5, fig.height=10}
-  pb_legend <- png::readPNG("analysis/datafiles/BAMM_legend.png")
-  grid.arrange(ggplotify::as.grob(~plot(egg_edata,lwd=2,legend=F,labels=F,cex=0.2,logcolor=T,breaksmethod="jenks",pal=c("#0D0887", "#CC4678", "#F0F921"))),rasterGrob(pb_legend),ncol=2,widths=c(10,1))
+pb_legend <- png::readPNG("analysis/datafiles/BAMM_legend.png")
+grid.arrange(ggplotify::as.grob(~plot(egg_edata,lwd=2,legend=F,labels=F,cex=0.2,logcolor=T,breaksmethod="jenks",pal=c("#0D0887", "#CC4678", "#F0F921"))),rasterGrob(pb_legend),ncol=2,widths=c(10,1))
 ```
 
 ```{r combine-rates, include=TRUE, fig.cap="**Rates of trait diversification of egg volume and ovariole number.** Points are colored by phylogenetic groups shown in Fig 1a. Dotted line shows threshold used to assigned rate regimes.", fig.width = 7, fig.height = 3.5}
 egg_brlen <- getMeanBranchLengthTree(egg_edata)
 egg_regimes <- data.frame(node=egg_brlen$phy$edge[,2],brlen=egg_brlen$phy$edge.length)
- 
+
 egg_reg <- egg_regimes[1:length(egg_bamm_tree$tip.label),] %>% mutate(genus = egg_bamm_tree$tip.label) %>% # pull out tips
-  left_join(.,(egg_database %>% select(genus,vol,group)),by="genus") %>% # add in trait data
-  rename(egg_rate = "brlen") %>% # recode for geiger
-  select(genus,vol,egg_rate) %>% na.omit()
+left_join(.,(egg_database %>% select(genus,vol,group)),by="genus") %>% # add in trait data
+rename(egg_rate = "brlen") %>% # recode for geiger
+select(genus,vol,egg_rate) %>% na.omit()
 
 on_egg_reg <- on_reg[sample(nrow(on_reg)),] %>%
-          group_by(genus) %>%
-          slice(1L) %>%
-          left_join(.,egg_reg[sample(nrow(egg_reg)),] %>%
-              group_by(genus) %>%
-              slice(1L),by="genus")
+group_by(genus) %>%
+slice(1L) %>%
+left_join(.,egg_reg[sample(nrow(egg_reg)),] %>%
+    group_by(genus) %>%
+    slice(1L),by="genus")
 
 ggplot(on_egg_reg,aes(x = rate, y = egg_rate, color= group)) + geom_point() +
-  scale_color_manual(values = mrk) +
-  scale_x_log10(label=scientific_10) +
-  scale_y_log10(label=scientific_10) +
-  theme(legend.position = "none") +
-  xlab("rate of ovariole number diversification") +
-  ylab("rate of egg volume diversification") +
-  geom_vline(xintercept=1e-04,linetype="dashed")
+scale_color_manual(values = mrk) +
+scale_x_log10(label=scientific_10) +
+scale_y_log10(label=scientific_10) +
+theme(legend.position = "none") +
+xlab("rate of ovariole number diversification") +
+ylab("rate of egg volume diversification") +
+geom_vline(xintercept=1e-04,linetype="dashed")
 ```
 
 We assessed the rate of egg volume diversification across insects using the same method of assessing rate heterogeneity as described in Section \ref{sec:BAMM} (Fig. \ref{fig:BAMM-egg-plot}). This analysis converged in $20*10^8$ generations (the effective size for the number of shifts and log-likelihood were >200, `r round(egg_es_nshifts,2)` and `r round(egg_es_logl,2)` respectively). We compared the correlation between the rates of trait diversification for ovariole number and egg volume by matching the mean rate predicted for each insect genus (the tips of the phylogeny from the BAMM analyses, Fig. \ref{fig:combine-rates}).
@@ -795,7 +1144,7 @@ We assessed the rate of egg volume diversification across insects using the same
 \pagebreak
 # References
 
-```{r save, cache=FALSE}
+```{r save}
 save.image("manuscript_supplement.RData")
 ```
 
