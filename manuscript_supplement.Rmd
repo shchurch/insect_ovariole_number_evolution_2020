@@ -1,5 +1,11 @@
 ---
 title: Repeated loss of variation in insect ovary morphology highlights the role of developmental constraint in life-history evolution - Supplementary Methods
+author: 
+    - Samuel H. Church^1^\*, 
+    - Bruno A. S. De Medeiros^1,2^, 
+    - Seth Donoughe^1,3^, 
+    - Nicole L. Márquez Reyes^4^, 
+    - Cassandra G. Extavour^1,5^\*
 output:
     bookdown::pdf_document2:
     keep_tex: yes
@@ -45,12 +51,10 @@ options(tinytex.clean = FALSE)
 \renewcommand{\thetable}{S\@arabic\c@table}
 \makeatother
 
-```{r load_data}
+```{r load_data, cache=FALSE}
 # This script reads in and formats the ovariole number dataset
 source("analysis/get_ovariole_number_data.R")
 ```
-
-Samuel H. Church^1^\*, Bruno A. S. De Medeiros^1,2^, Seth Donoughe^1,3^, Nicole L. Márquez Reyes^4^, Cassandra G. Extavour^1,5^\*
 
 
 ^1^ Department of Organismic and Evolutionary Biology, Harvard University, Cambridge, MA 02138, USA
@@ -76,7 +80,7 @@ We searched the published literature for references to insect ovariole number us
 
 For each search term, we evaluated all publications in the first page of results (ten publications). For 61 search terms that had a large number of informative hits, significant representation in the egg dataset, or that corresponded to very speciose groups, we evaluated an additional 20 publications. If a publication reported ovariole number for one or more insect species, we recorded the following information: (1) genus, (2) species name, when available, (3) taxonomic order, (4) sample size, when available, (5) ovariole number, and (6) additional notes (e.g. for eusocial insects, whether the observation was made in a reproductive or non-reproductive individual). This dataset is made publically available at Dryad (doi:10.5061/dryad.59zw3r253).
 
-Ovariole number was recorded as either an average with deviations, a range, or a single total value, with priority for recording given in that order when multiple data types were available. Ovariole number was recorded as the total number of ovarioles per female, summing over both the left and right adult ovaries. When authors reported ovariole number from a single ovary, the total value was calculated by doubling the reported value. When authors described differences between the two ovaries, this information was recorded in an additional column.
+Ovariole number was recorded as either an average with deviations, a range, or a single total value. When multiple types of data were available from a single publication, we recorded only a single type, with priority given to averages over ranges, and to both over single total values. Ovariole number was recorded as the total number of ovarioles per female, summing over both the left and right adult ovaries. When authors reported ovariole number from a single ovary, the total value was calculated by doubling the reported value. When authors described differences between the two ovaries, this information was recorded in an additional notes column.
 
 Using this approach, we gathered `r nrow(raw_ON)` records for ovariole number from 460 publications. A full list of publications is provided in the supplementary file 'ovariole_number_bibliography.pdf'. We matched the scientific names to additional taxonomic information using the software TaxReformer[@TaxReformer] and found additional taxonomic data for `r nrow(matched)` of the `r nrow(raw_ON)` records. We verified that TaxReformer had found a valid match by comparing the originally recorded taxonomic order to the order populated by online databases, and removed `r nrow(raw_ON %>% filter(problem == "taxonomy"))` taxonomic records for which these values did not match. For all subsequent analyses, we also excluded observations made in non-reproductive individuals from eusocial species (workers), as well as two observations which represented significant outliers and could not be validated using additional sources or figures[@su2015testicular;@hernandez2017biology].
 
@@ -97,13 +101,13 @@ Phylogenetic estimation of the Drosophilidae data were performed using RAxML (mo
 
 ## Combining datasets {#sec:combining}
 
-We combined the data we collected on total ovariole number with existing datasets of egg size and shape[@church2019dataset], insect lifetime fecundity and adult dry body weight[@Gilbert2007], average adult body length per insect family[@rainford2016phylogenetic], and several lineage-specific measures of adult body size[@iwata1966large;@Iwata1966a;@waloff1954number;@starmer2003phylogenetic;@reinhardt2005low].
+We combined the data we collected on total ovariole number with existing datasets of egg size and shape[@church2019dataset], insect lifetime fecundity and dry adult body mass[@Gilbert2007], average adult body length per insect family[@rainford2016phylogenetic], and several lineage-specific measures of adult body size[@iwata1966large;@Iwata1966a;@waloff1954number;@starmer2003phylogenetic;@reinhardt2005low].
 
-Ovariole number and egg size[@church2019insect] data were combined by matching records at the species level (Fig 2a). When multiple records existed for a given species, the dataset was randomly shuffled and a single matching record was selected. This variation across records for the same species was accounted for in regressions by reshuffling and matching records at each iteration of the analysis. In order to test whether results were robust with a larger sample size, we also matched records at the genus level following the same reshuffling method (Fig. \ref{fig:PGLS-egg-ON-genus}).
+Ovariole number and egg size[@church2019insect] data were combined by matching records at the species level (Fig 2a). When multiple records existed for a given species, the dataset was randomly shuffled and a single matching record was selected. This variation across records for the same species was accounted for in regressions by reshuffling and matching records at each iteration of the analysis.  We also matched records at the genus level following the same reshuffling method, which allowed us to test whether results were robust with a larger sample size when an exact species match was not available (Fig. \ref{fig:PGLS-egg-ON-genus}).
 
 Average adult body length per insect family[@rainford2016phylogenetic] was matched to the average ovariole number for the corresponding families (Fig. \ref{fig:PGLS-family-length}). The Rainford et al, 2016[@rainford2016phylogenetic] dataset contains a small number of average adult body lengths at the order level (e.g. Strepsiptera), which were matched to their equivalent group in the ovariole number dataset. To test the effect of uncertainty in the estimated average ovariole number on our results, the dataset for each family was downsampled by half at each iteration of the regression analysis.
 
-Ovariole number, egg volume, lifetime fecundity, and adult body weight[@Gilbert2007] were combined by matching records at the species level and genus level, using the same method as described above (Figs. 2b, 3, and \ref{fig:PGLS-Gilbert-name}). We excluded one value from this dataset which appeared to include a typographical error for lifetime fecundity (Hymenoptera: Trichogrammatidae, lifetime fecundity recorded as 0.1[@Gilbert2007]).
+Ovariole number, egg volume, lifetime fecundity, and adult body mass[@Gilbert2007] were combined by matching records at the species level and genus level, using the same method as described above (Figs. 2b, 3, and \ref{fig:PGLS-Gilbert-name}). We excluded one value from this dataset which appeared to include a typographical error for lifetime fecundity (Hymenoptera: Trichogrammatidae, lifetime fecundity recorded as 0.1[@Gilbert2007]).
 
 Several lineage-specific measurements for body size were matched to the ovariole number and egg size datasets, as follows: Drosophilidae thorax length[@starmer2003phylogenetic] was matched at the species level (Fig. 2c), Orthoptera body length[@waloff1954number] was matched at the genus level (Fig. 2d), Hymenoptera mesosoma width[@Iwata1966a] was matched at the genus level, and Curculonoidea elytra length[@iwata1966large] was matched at the genus level (Fig. \ref{fig:PGLS-Coleoptera-Hymenoptera}).
 
@@ -116,7 +120,7 @@ source("analysis/pgls_functions.R")
 downsample_factor <- 1
 fam_count_threshold <- 1
 
-set.seed(12345)  # set seed for cobmination
+set.seed(12345)  # set seed for combination
 source("analysis/combine_body_egg_datasets.R")
 
 # use the maximum clade credibility tree
@@ -181,7 +185,7 @@ run_plotting_resid_pgls(gilbert_genus_pgls,tree,"gilbert_genus") +
 invisible(dev.off())
 ```
 
-```{r PGLS-Gilbert-name, fig.cap="**Egg volume vs ovariole number, phylogenetic residuals to dry adult body weight, matching records at the species level.**", fig.width=3, fig.height=3, include=TRUE}
+```{r PGLS-Gilbert-name, fig.cap="**Egg volume vs ovariole number, phylogenetic residuals to dry adult body mass, matching records at the species level.**", fig.width=3, fig.height=3, include=TRUE}
 ### Gilbert egg vs ON, ind body weight name pgls
 egg_ON_gilbert_name_pgls <- egg_ON_gilbert_name %>% 
     select(genus,logvol,logon,logweight,group) %>% 
@@ -208,15 +212,15 @@ run_plotting_resid_pgls(body_egg_ON_family_pgls,fam_tree,"body_egg_ON_family") +
     ylab("residual of average egg volume")
 ```
 
-\textcolor{red}{We ran each Phylogenetic Generalized Least Squares regression over the Maximum Clade Credibilty (MCC) tree. For each regression, we also repeated each PGLS analysis 1000 times,} accounting for phylogenetic and phenotypic uncertainty, using the R packages ape (version `r packageVersion('ape')`)[@paradis2004ape] and nlme (version `r packageVersion('nlme')`)[@pinheiro2014r]. In these analyses we used a Brownian Motion based covariance matrix for traits. 
+We ran each Phylogenetic Generalized Least Squares (PGLS) regression over the Maximum Clade Credibilty (MCC) tree. For each regression, we also repeated each PGLS analysis 1000 times, accounting for phylogenetic and phenotypic uncertainty, using the R packages ape (version `r packageVersion('ape')`)[@paradis2004ape] and nlme (version `r packageVersion('nlme')`)[@pinheiro2014r]. In these analyses we used a Brownian Motion based covariance matrix for traits. 
 
 For regressions at the species and genus level, we reshuffled and matched records at each iteration to account for variation across records for the same taxon. For regressions at the family level we recalculated the average ovariole number per insect family, downsampling the representation for each family by half. No posterior distribution was available with the previously published family level phylogeny[@rainford2014phylogenetic].
 
 To account for body size, we calculated the phylogenetic residuals[@revell2010phylogenetic] of each trait to body size, and then compared the evolution of these residuals using a PGLS regression.
 
-\textcolor{red}{For regressions of egg size and ovariole number when accounting for adult body size, we compared the results of our regression analyses to distributions estimated using simulated data under alternative hypotheses. We fit a Brownian motion model to the phylogenetic residuals of egg size and body size (R package geiger}[@harmon2007geiger]\textcolor{red}{, version `r packageVersion('geiger')`), and then used the parameters of this fitted model to simulate new datasets (R package phylolm}[@tung2014linear]\textcolor{red}{, version `r packageVersion('phylolm')`). We performed this resimulation using the datasets of egg size and body length at the family level, and egg size and body weight at the genus level. We simulated 1000 datasets each under two hypotheses: no correlation (slope=0) and a strong negative correlation (slope=-1:1). We performed the regressions as described above and compared the distribution of p-values and slopes to values from regressions on observed data.}
+For regressions of egg size and ovariole number when accounting for adult body size, we compared the results of our regression analyses to distributions estimated using simulated data under alternative hypotheses. We fit a Brownian motion model to the phylogenetic residuals of egg size and body size (R package geiger, version `r packageVersion('geiger')`)[@harmon2007geiger], and then used the parameters of this fitted model to simulate new datasets (R package phylolm, version `r packageVersion('phylolm')`)[@tung2014linear]. We performed this resimulation using the datasets of egg size and body length at the family level, and egg size and body mass at the genus level. We simulated 1000 datasets each under two hypotheses: no correlation (slope=0) and a strong negative correlation (slope=-1). We performed the regressions as described above and compared the distribution of p-values and slopes to values from regressions on observed data.
 
-```{r simulated, fig.cap="**\\textcolor{red}{Using simulated data to test alternative hypotheses of evolutionary relationships}** Top row, distributions of p-values over 1000 replicate regressions, dashed black line indicates threshold of 0.01. Bottom row, distribution of estimated slopes between egg size and ovariole number, dashed lines indicate 95% interval of simulated distributions. Left, comparing egg size and ovariole number, accounting for body length at the family level. Right, comparing egg size and ovariole number, accounting for body weight at the genus level. Red=observed values, gray=simulated with no correlation, black=simulated with a -1:1 correlation. n=1000 regressions.", fig.width=7.5, fig.height=5, include=TRUE}
+```{r simulated, fig.cap="**Using simulated data to test alternative hypotheses of evolutionary relationships.** Top row, distributions of p-values over 1000 replicate regressions, dashed black line indicates threshold of 0.01. Bottom row, distribution of estimated slopes between egg size and ovariole number, dashed lines indicate 95% interval of simulated distributions. Left, comparing egg size and ovariole number, accounting for body length at the family level. Right, comparing egg size and ovariole number, accounting for body mass at the genus level. Red=observed values, gray=simulated with no correlation, black=simulated with a -1:1 correlation. n=1000 regressions.", fig.width=7.5, fig.height=5, include=TRUE}
 get_tstat <- function(sum,n) {
     tstat <- as.numeric(unname(sum[[n]]$coefficients[[2]]))
     return(tstat)
@@ -227,13 +231,13 @@ get_pval <- function(sum,n) {
     return(pval)
 }
 
-load("analysis/pgls_results_Fall2020/run_pgls_simulated_allometry_body_egg_ON_family_-1_image.RData")
+load("analysis/pgls_results_Jan2021/run_pgls_simulated_allometry_body_egg_ON_family_-1_image.RData")
 sim_corr_tstat_dist <- sapply(allometry_distribution_raw,get_tstat,n=1)
 sim_corr_pval_dist <- sapply(allometry_distribution_raw,get_pval,n=1)
-load("analysis/pgls_results_Fall2020/run_pgls_simulated_allometry_body_egg_ON_family_0_image.RData")
+load("analysis/pgls_results_Jan2021/run_pgls_simulated_allometry_body_egg_ON_family_0_image.RData")
 sim_nocorr_tstat_dist <- sapply(allometry_distribution_raw,get_tstat,n=1)
 sim_nocorr_pval_dist <- sapply(allometry_distribution_raw,get_pval,n=1)
-load("analysis/pgls_results_Fall2020/run_posterior_pgls_egg_size_ovariole_number.RData")
+load("analysis/pgls_results_Jan2021/run_posterior_pgls_egg_size_ovariole_number.RData")
 obs_tstat_dist <- sapply(allometry_distribution_raw,get_tstat,n=3)
 obs_pval_dist <- sapply(allometry_distribution_raw,get_pval,n=3)
 
@@ -258,13 +262,13 @@ tibble(type = "observed",
     pval=obs_pval_dist))
 
 
-load("analysis/pgls_results_Fall2020/run_pgls_simulated_allometry_gilbert_genus_-1_image.RData")
+load("analysis/pgls_results_Jan2021/run_pgls_simulated_allometry_gilbert_genus_-1_image.RData")
 sim_corr_tstat_dist <- sapply(allometry_distribution_raw,get_tstat,n=1)
 sim_corr_pval_dist <- sapply(allometry_distribution_raw,get_pval,n=1)
-load("analysis/pgls_results_Fall2020/run_pgls_simulated_allometry_gilbert_genus_0_image.RData")
+load("analysis/pgls_results_Jan2021/run_pgls_simulated_allometry_gilbert_genus_0_image.RData")
 sim_nocorr_tstat_dist <- sapply(allometry_distribution_raw,get_tstat,n=1)
 sim_nocorr_pval_dist <- sapply(allometry_distribution_raw,get_pval,n=1)
-load("analysis/pgls_results_Fall2020/run_posterior_pgls_egg_size_ovariole_number.RData")
+load("analysis/pgls_results_Jan2021/run_posterior_pgls_egg_size_ovariole_number.RData")
 obs_tstat_dist <- sapply(allometry_distribution_raw,get_tstat,n=5)
 obs_pval_dist <- sapply(allometry_distribution_raw,get_pval,n=5)
 
@@ -330,7 +334,7 @@ theme(legend.position="none",
 p2 <- ggplot(gilbert_genus_pval_dist,aes(x=pval,y=relationship,color=relationship)) + geom_jitter(size=0.2)  + 
 geom_vline(xintercept=0.01,colour="black",linetype="dashed") + 
 #geom_vline(xintercept=0.05,colour="black",linetype="longdash") + 
-ggtitle("egg size vs ov. number, body weight") + 
+ggtitle("egg size vs ov. number, body mass") + 
 xlab("p-value") +
 #ylab("type") + 
 xlim(c(0,1)) +
@@ -398,7 +402,7 @@ ylab(element_blank()) + ggtitle("Hymenoptera")
 grid.arrange(col1,hym1,ncol=2)
 ```
 
-```{r PGLS-body-plot, fig.cap="**Adult body size vs ovariole number.** Adult body weight compared at the genus level (left), and average adult body length compared at the family level (right).", fig.width=6, fig.height=3, include=TRUE}
+```{r PGLS-body-plot, fig.cap="**Adult body size vs ovariole number.** Adult body mass compared at the genus level (left), and average adult body length compared at the family level (right).", fig.width=6, fig.height=3, include=TRUE}
 ### body length vs ON, family level
 ON_body_family_pgls <- body_egg_ON_full %>% 
     select(rank,logon,logbody,group) %>% 
@@ -424,7 +428,7 @@ ON_body_gilbert_genus_pgls <- egg_ON_gilbert_genus %>%
 pgls_results_body_gilbert_genus <- run_all_taxa_pgls(ON_body_gilbert_genus_pgls,tree)
 
 gilbert_body <- run_plotting_pgls(ON_body_gilbert_genus_pgls,tree,"body_gilbert") + xlab(bquote('ovariole number,'~log[10])) +
-ylab(bquote('adult dry body weight (g),'~log[10]))
+ylab(bquote('dry adult body mass (g),'~log[10]))
 
 ### Curculionoidea body vs ON
 pgls_results_body_COL1 <- run_all_taxa_pgls(COL1_body_egg_ON_genus %>% 
@@ -502,7 +506,7 @@ get_pgls_table <- function(dist) {
 sp <- " -- " # separator in tables
 
 ### PGLS TABLE EGG SIZE OVARIOLE NUMBER
-load("analysis/pgls_results_Fall2020/run_posterior_pgls_egg_size_ovariole_number.RData")
+load("analysis/pgls_results_Jan2021/run_posterior_pgls_egg_size_ovariole_number.RData")
 
 egg_ON_posterior_results <- list(allometry_egg_ON_name,
     allometry_egg_ON_genus,
@@ -518,8 +522,8 @@ egg_ON_pgls_results <- list(pgls_results_egg_ON_name,
 
 egg_ON_pgls_analysis_names <- c("ovariole number vs egg volume",
     "ovariole number vs egg volume",
-    "ovariole number vs egg volume, residuals to body weight",
-    "ovariole number vs egg volume, residuals to body weight",
+    "ovariole number vs egg volume, residuals to body mass",
+    "ovariole number vs egg volume, residuals to body mass",
     "ovariole number vs egg volume, residuals to body length")
 
 egg_ON_taxonomic_levels <- c("species","genus","species","genus","family")
@@ -532,6 +536,7 @@ egg_ON_table <- as.data.frame(bind_rows(lapply(egg_ON_posterior_results,get_pgls
         "taxa" = taxa)
 knitr::kable(egg_ON_table %>% select(c("analysis","taxonomic level","slope","MCC p-value","num. sig. / 1000","taxa")),
         "latex",
+        align=rep('l', 6),
         caption="Results of PGLS analysis of ovariole number and egg size across a posterior distribution", booktabs = T, linesep = "") %>% 
     kableExtra::kable_styling(latex_options = "striped") %>%
     kableExtra::column_spec(1, width = "16em") %>%
@@ -541,7 +546,7 @@ knitr::kable(egg_ON_table %>% select(c("analysis","taxonomic level","slope","MCC
 
 ```{r PGLS-posterior-clade, include=TRUE}
 ### PGLS TABLE SUBCLADE
-load("analysis/pgls_results_Fall2020/run_posterior_pgls_subclade.RData")
+load("analysis/pgls_results_Jan2021/run_posterior_pgls_subclade.RData")
 
 clade_posterior_results <- list(allometry_DIP,
     allometry_ORT,
@@ -568,6 +573,7 @@ clade_table <- as.data.frame(bind_rows(lapply(clade_posterior_results,get_pgls_t
         "taxa" = taxa)
 knitr::kable(clade_table %>% select(c("analysis","taxonomic level","slope","MCC p-value","num. sig. / 1000","taxa")),
         "latex",
+        align=rep('l', 6),
         caption="Results of PGLS analysis of ovariole number and egg size across a posterior distribution", booktabs = T, linesep = "") %>% 
     kableExtra::kable_styling(latex_options = "striped") %>%
     kableExtra::column_spec(1, width = "16em") %>%
@@ -577,7 +583,7 @@ knitr::kable(clade_table %>% select(c("analysis","taxonomic level","slope","MCC 
 
 ```{r PGLS-posterior-body, include=TRUE}
 ### PGLS TABLE BODY SIZE
-load("analysis/pgls_results_Fall2020/run_posterior_pgls_body_size.RData")
+load("analysis/pgls_results_Jan2021/run_posterior_pgls_body_size.RData")
 
 body_posterior_results <- list(allometry_body_gilbert_name,
     allometry_body_gilbert_genus,
@@ -596,8 +602,8 @@ body_pgls_results <- list(pgls_results_body_gilbert_name,
     pgls_results_body_HYM)
 
 body_pgls_analysis_names <- c("ovariole number vs body length",
-    "ovariole number vs body weight",
-    "ovariole number vs body weight",
+    "ovariole number vs body mass",
+    "ovariole number vs body mass",
     "Drosophilidae ovariole number vs thorax length",
     "Orthoptera ovariole number vs body length",
     "Curculionoidea ovariole number vs elytra length",
@@ -614,6 +620,7 @@ body_table <- as.data.frame(bind_rows(lapply(body_posterior_results,get_pgls_tab
         "taxa" = taxa)
 knitr::kable(body_table %>% select(c("analysis","taxonomic level","slope","MCC p-value","num. sig. / 1000","taxa")),
         "latex",
+        align=rep('l', 6),
         caption="Results of PGLS analysis of ovariole number and body size across a posterior distribution", booktabs = T, linesep = "") %>% 
     kableExtra::kable_styling(latex_options = "striped") %>%
     kableExtra::column_spec(1, width = "16em") %>%
@@ -623,7 +630,7 @@ knitr::kable(body_table %>% select(c("analysis","taxonomic level","slope","MCC p
 
 ```{r PGLS-posterior-fecundity, include=TRUE}
 ### PGLS TABLE FECUNDITY
-load("analysis/pgls_results_Fall2020/run_posterior_pgls_fecundity.RData")
+load("analysis/pgls_results_Jan2021/run_posterior_pgls_fecundity.RData")
 
 fecundity_posterior_results <- list(allometry_fecundity_name,
     allometry_fecundity_genus)
@@ -676,11 +683,11 @@ est_tips <- data.frame("state1" = round(pp$tip.states,0)[,1],
     "state3" = round(pp$tip.states,0)[,3],
     "state4" = round(pp$tip.states,0)[,4]) %>% 
 mutate(discrete = ifelse(state1 == 1,1,
-    ifelse(state2 == 1,2,
-    ifelse(state3 == 1,3,4))),
-genus = pp$phy$tip.label) %>% 
-select(genus,discrete) %>% 
-mutate("ovary_regime"=plyr::mapvalues(discrete,ovary_nums$num,ovary_nums$ovary))
+        ifelse(state2 == 1,2,
+        ifelse(state3 == 1,3,4))),
+        genus = pp$phy$tip.label) %>% 
+    select(genus,discrete) %>% 
+    mutate("ovary_regime"=plyr::mapvalues(discrete,ovary_nums$num,ovary_nums$ovary))
 
 ovary_cols <- c("black","#949494","#00c2c2","red")
 names(ovary_cols) <- c("Mstar","P","PM","TM")
@@ -699,7 +706,7 @@ add.scale.bar()
 invisible(dev.off())
 ```
 
-Using these 106 records for ovary type, we reconstructed the ancestral state at each node of the published phylogeny of `r length(pp$phy$tip.label)` insect genera using an equal-rates model that allows for missing data (Fig. \ref{fig:reconstruct-ovary}, R package corHMM,[@beaulieu2013identifying] version `r packageVersion('corHMM')`, function rayDISC, node.states = 'marginal').
+Using these 106 records for ovary type, we reconstructed the ancestral state at each node of the published phylogeny of `r length(pp$phy$tip.label)` insect genera using an equal-rates model that allows for missing data (Fig. \ref{fig:reconstruct-ovary}, R package corHMM, version 1.22[@beaulieu2013identifying] function rayDISC, node.states = 'marginal').
 
 ## Oogenesis mode model comparison {#sec:oogenesis-model}
 
@@ -784,31 +791,31 @@ sample_size <- tibble("analysis name" = c("ovariole number","egg volume","egg as
 
 # write table
 mean_table <- rbind(on_mean_res,egg_mean_res,ar_mean_res,asym_mean_res,curv_mean_res) %>%
-mutate("analysis name" = c("ovariole number","egg volume","egg aspect ratio","egg asymmetry","egg curvature")) %>%
-select("analysis name",BM1,BMS,OU1,OUM)
+    mutate("analysis name" = c("ovariole number","egg volume","egg aspect ratio","egg asymmetry","egg curvature")) %>%
+    select("analysis name",BM1,BMS,OU1,OUM)
 knitr::kable(mean_table, "latex",caption="Average corrected AIC (AICc) value from model comparison", booktabs = T, linesep = "") %>%
-kableExtra::kable_styling(latex_options = "striped") %>%
-kableExtra::column_spec(1, width = "10em") %>%
-kableExtra::kable_styling(latex_options = "hold_position")
+    kableExtra::kable_styling(latex_options = "striped") %>%
+    kableExtra::column_spec(1, width = "10em") %>%
+    kableExtra::kable_styling(latex_options = "hold_position")
 
 ```
 
 ```{r ovary-model-comparison-count, include=TRUE}
 count_table <- rbind(on_count_res,egg_count_res,ar_count_res,asym_count_res,curv_count_res)  %>%
-mutate("analysis name" = c("ovariole number","egg volume","egg aspect ratio","egg asymmetry","egg curvature")) %>%
-select("analysis name",bm1_bms,bm1_ou1,bm1_oum,ou1_oum) %>%
-rename("BMS vs. BM1" = bm1_bms,
+    mutate("analysis name" = c("ovariole number","egg volume","egg aspect ratio","egg asymmetry","egg curvature")) %>%
+    select("analysis name",bm1_bms,bm1_ou1,bm1_oum,ou1_oum) %>%
+    rename("BMS vs. BM1" = bm1_bms,
     "OU1 vs. BM1" = bm1_ou1,
     "OUM vs. BM1" = bm1_oum,
     "OUM vs. OU1" = ou1_oum) %>% 
-left_join(.,sample_size,by="analysis name")
+    left_join(.,sample_size,by="analysis name")
 knitr::kable(count_table, "latex",caption="Results of model comparison analysis over posterior distribution, showing the number of iterations out of 100 where the difference in model fit ($\\Delta$AICc) was greater than 2.", booktabs = T, linesep = "") %>%
-kableExtra::kable_styling(latex_options = "striped") %>%
-kableExtra::column_spec(1, width = "10em") %>%
-kableExtra::kable_styling(latex_options = "hold_position")
+    kableExtra::kable_styling(latex_options = "striped") %>%
+    kableExtra::column_spec(1, width = "10em") %>%
+    kableExtra::kable_styling(latex_options = "hold_position")
 ```
 
-Using the ancestral state reconstruction of evolutionary shifts in the mode of oogenesis, we inferred the most likely mode of oogenesis for all nodes and unobserved extant tips in the phylogeny (Fig. \ref{fig:reconstruct-ovary}). We then compared the fit of models of trait evolution that take into account these shifts in oogenesis mode against those that do not. These comparisons were performed with the R package OUwie[@beaulieu2012modeling]  (version `r packageVersion('OUwie')`). 
+Using the ancestral state reconstruction of evolutionary shifts in the mode of oogenesis, we inferred the most likely mode of oogenesis for all nodes and unobserved extant tips in the phylogeny (Fig. \ref{fig:reconstruct-ovary}). We then compared the fit of models of trait evolution that take into account these shifts in oogenesis mode against those that do not. These comparisons were performed with the R package OUwie (version 1.57)[@beaulieu2012modeling]. 
 
 Each analysis compared four models of evolution: single-rate Brownian Motion (BM1), multi-rate Brownian Motion (BMS), single-optimum Ornstein-Uhlenbeck (OU1), and an Ornstein-Uhlenbeck model with different optima for each mode of oogenesis (OUM). 
 
@@ -823,14 +830,14 @@ These comparisons were repeated 100 times over a posterior distribution of trees
 
 # set up trait and tree for arbutus analysis
 arbutus_tree <- drop.tip(tree,tree$tip.label[!(tree$tip.label %in% ON$genus)])
-arbutus_trait <- ON %>% filter(genus %in% arbutus_tree$tip.label) %>%
-group_by(genus) %>% slice(1L)
-arbutus_trait_vec <- arbutus_trait %>% pull(logon)
+    arbutus_trait <- ON %>% filter(genus %in% arbutus_tree$tip.label) %>%
+    group_by(genus) %>% slice(1L)
+    arbutus_trait_vec <- arbutus_trait %>% pull(logon)
 names(arbutus_trait_vec) <- arbutus_trait$genus
 
 # fit a Brownian Motion model
 fit_bm <- arbutus_trait_vec[order(match(names(arbutus_trait_vec),arbutus_tree$tip.label))] %>%
-fitContinuous(dat = ., phy =arbutus_tree, model="BM")
+    fitContinuous(dat = ., phy =arbutus_tree, model="BM")
 
 # run a parametric bootstrap of the model with arbutus
 arbutus_fit_bm <- arbutus(fit_bm)
@@ -842,7 +849,7 @@ names(arbutus_fit_bm$sim) <- arbutus_names
 plot(arbutus_fit_bm,legend=F)
 ```
 
-We evaluated the fit of a Brownian Motion (BM) model for ovariole number evolution using the R package arbutus[@pennell2015model], version `r packageVersion('arbutus')`  (Fig. \ref{fig:arbutus}). In this approach, a BM model is fit to the data (R package geiger[@harmon2007geiger], version `r packageVersion('geiger')`), and the resulting parameters of the model are used to simulate 1000 new datasets. Six statistical parameters are used to compare the phylogenetic contrasts of the observed data to the simulated data, and their interpretations are as follows[@pennell2015model]:
+We evaluated the fit of a Brownian Motion (BM) model for ovariole number evolution using the R package arbutus (version `r packageVersion('arbutus')`[@pennell2015model], Fig. \ref{fig:arbutus}). In this approach, a BM model is fit to the data (R package geiger, version `r packageVersion('geiger')`)[@harmon2007geiger], and the resulting parameters of the model are used to simulate 1000 new datasets. Six statistical parameters are used to compare the phylogenetic contrasts of the observed data to the simulated data, and their interpretations are as follows[@pennell2015model]:
 
 
 1. _Mean of squared contrasts_. The rate of evolution of ovariole number can be well estimated by the Brownian Motion model (the observed value falls within the null distribution).
@@ -855,6 +862,8 @@ We evaluated the fit of a Brownian Motion (BM) model for ovariole number evoluti
 ## Assessing rate heterogeneity {#sec:BAMM}
 
 ```{r BAMM-analysis-setup}
+#set.seed(12345)  # set seed for BAMM
+
 ### Select a continuous trait to analyze
 trait_of_interest <- "on"
 dat_of_interest <- ON
@@ -864,15 +873,15 @@ name <- paste("BAMM",trait_of_interest,sep="_")
 
 ### Set up the data frame for analysis
 dat <- dat_of_interest[sample(nrow(dat_of_interest)),] %>% # shuffle the dataset
-mutate(raw_trait = eval(parse(text = trait_of_interest))) %>%  # pull out genus and trait
-filter(!(is.na(raw_trait))) %>% select(genus,raw_trait) %>% # remove missing data
-group_by(genus) %>% summarize(mean_trait = mean(raw_trait)) %>% # calculate mean per genus
-mutate(trait = log10(mean_trait)) # transform the data
+    mutate(raw_trait = eval(parse(text = trait_of_interest))) %>%  # pull out genus and trait
+    filter(!(is.na(raw_trait))) %>% select(genus,raw_trait) %>% # remove missing data
+    group_by(genus) %>% summarize(mean_trait = mean(raw_trait)) %>% # calculate mean per genus
+    mutate(trait = log10(mean_trait)) # transform the data
 
 ### Format the data frame for BAMM
 bmm_red <- dat %>% mutate(taxa = genus) %>%
-filter(genus %in% tree$tip.label) %>%
-select(genus,trait)
+    filter(genus %in% tree$tip.label) %>%
+    select(genus,trait)
 
 ### Use only taxa with phenotypic data
 bmm <- drop.tip(tree,setdiff(tree$tip.label,bmm_red$genus))
@@ -901,11 +910,11 @@ bmm <- drop.tip(tree,setdiff(tree$tip.label,bmm_red$genus))
 #### bamm -c bamm.config
 ```
 
-Given the result that our dataset contains substantial rate heterogeneity, we identified regions of the tree with high and low rates of ovariole number evolution using the software BAMM[@rabosky2014automatic], version 2.5.0. For this analysis, we calculated the average ovariole number for each genus in the insect phylogeny[@church2019insect]. Average ovariole number was log~10~ transformed, and the tree was filtered to include only tips for which there were corresponding ovariole number data (sample size = `r length(bmm$tip.label)`). We used the R package BAMMtools (version `r packageVersion('BAMMtools')`)[@rabosky2014bamm] to select priors, and ran BAMM for the maximum number of generations ($2*10^{9}$), sampling every 10^6^ generations.
+Given the result that our dataset contains substantial rate heterogeneity, we identified regions of the tree with high and low rates of ovariole number evolution using the software BAMM (version 2.5.0)[@rabosky2014automatic]. For this analysis, we calculated the average ovariole number for each genus in the insect phylogeny[@church2019insect]. Average ovariole number was log~10~ transformed, and the tree was filtered to include only tips for which there were corresponding ovariole number data (sample size = `r length(bmm$tip.label)`). We used the R package BAMMtools (version `r packageVersion('BAMMtools')`)[@rabosky2014bamm] to select priors, and ran BAMM for the maximum number of generations ($2*10^{9}$), sampling every 10^6^ generations.
 
 ```{r BAMM-analysis-convergence, include=TRUE, fig.cap="Convergence of trait diversification rate analysis", fig.width=10, fig.height=5}
 ### Assess convergence
-mcmcout <- read.csv("analysis/BAMM_results_June2020/bamm_mcmc_out.txt", header=T) 
+mcmcout <- read.csv("analysis/BAMM_results_Jan2021/bamm_mcmc_out.txt", header=T) 
 
 #pdf(file=paste(name,"_convergence.pdf",sep=""),width=10,height=5)
 plot(mcmcout$logLik ~ mcmcout$generation,pch=16,cex=0.5,xlab="MCMC generation",ylab="Log-likelihood")
@@ -932,14 +941,14 @@ es_logl <- effectiveSize(postburn$logLik) # this should be >200, though it has n
 #es_logl
 ```
 
-Convergence was evaluated both visually (Fig. \ref{fig:BAMM-analysis-convergence}) and numerically by comparing the effective sample size for number of shifts and log-likelihood to the standard recommended by the software (>200). We determined the most appropriate burn-in proportion to use by finding the maximum effective sample size of the log-likelihood across an array of possible burn-in proportions (Fig. \ref{fig:BAMM-analysis-burnin}). Running BAMM for the maximum possible number of generations and selecting the optimum burn-in\ref{fig:BAMM-analysis-burnin} resulted in an effective size for the number of shifts of `r round(es_nshifts,2)`, and for log-likelihood of `r round(es_logl,2)`. Repeated BAMM analyses showed similar distributions of high and low rate regimes, indicating the implications for ovariole number evolution are robust to uncertainty in rate estimates. See Supplemental Methods Section \ref{sec:BAMM} for details.
+Convergence was evaluated both visually (Fig. \ref{fig:BAMM-analysis-convergence}) and numerically by comparing the effective sample size for number of shifts and log-likelihood to the standard recommended by the software (>200). We determined the most appropriate burn-in proportion to use by finding the maximum effective sample size of the log-likelihood across an array of possible burn-in proportions (Fig. \ref{fig:BAMM-analysis-burnin}). Running BAMM for the maximum possible number of generations and selecting the optimum burn-in (Fig. \ref{fig:BAMM-analysis-burnin}) resulted in an effective size for the number of shifts of `r round(es_nshifts,2)`, and for log-likelihood of `r round(es_logl,2)`. Repeated BAMM analyses showed similar distributions of high and low rate regimes, indicating the implications for ovariole number evolution are robust to uncertainty in rate estimates. See Supplemental Methods Section \ref{sec:BAMM} for details.
 
 ```{r BAMM-anlaysis-event-data}
 ### Read in the BAMM results and plot the shifts on the tree
-bamm_tree <- ladderize(read.tree(file="analysis/BAMM_results_June2020/bamm_tree.tre")) 
+bamm_tree <- ladderize(read.tree(file="analysis/BAMM_results_Jan2021/bamm_tree.tre")) 
 
 # get event data
-edata <- getEventData(bamm_tree, eventdata = paste("analysis/BAMM_results_June2020/bamm_event_data.txt",sep=""), burnin=burnin, type="trait")
+edata <- getEventData(bamm_tree, eventdata = paste("analysis/BAMM_results_Jan2021/bamm_event_data.txt",sep=""), burnin=burnin, type="trait")
 ```
 
 ```{r BAMM-analysis-results, include=TRUE, fig.cap="**Best rate shift configuration from BAMM trait diversification analysis on ovariole number.** Purple = low rate of evolution, yellow = high rate of evolution.", fig.width=5, fig.height=10}
@@ -965,13 +974,13 @@ abline(v = log10(lowrate), col="black", lwd=3, lty=2)
 #dev.off()
 ```
 
-The best configuration of rate shift regimes shows multiple independent clades with very low rates of evolution (Fig. \ref{fig:BAMM-analysis-results}). Visualizing the distribution of mean rates along branches revealed a discontinuous distribution, with one peak at a moderate rate of evolution and another at an extremely low rate, separated from the first peak by over six orders of magnitude (Fig. \ref{fig:BAMM-anlaysis-mean-rates}). We used this visualization to establish a threshold (`r lowrate`) for assigning a binary rate regime to each node in the phylogeny, categorizing them as above (variable) or below (invariant) a threshold that separates these two peaks.
+The best configuration of rate shift regimes shows multiple independent clades with very low rates of evolution (Fig. \ref{fig:BAMM-analysis-results}). Visualizing the distribution of mean rates along branches revealed a discontinuous distribution, with one peak at a moderate rate of evolution and several clusters at extremely low rates, separated from the first peak by over six orders of magnitude (Fig. \ref{fig:BAMM-anlaysis-mean-rates}). We used this visualization to establish a threshold (`r lowrate`) for assigning a binary rate regime to each node in the phylogeny, categorizing them as above (variable) or below (invariant) a threshold that separates these two peaks.
 
 ```{r BAMM-analysis-mainfig}
 # bin the rates into above or below the threshold
 regimes <- data.frame(node=brlen$phy$edge[,2], # use the terminal nodes of each edge as the identifier
     brlen=brlen$phy$edge.length) %>% # pull the branch length = mean rate
-mutate(regime = ifelse(brlen<lowrate,"below","above")) # bin rates
+    mutate(regime = ifelse(brlen<lowrate,"below","above")) # bin rates
 mrca_node <- data.frame(node=getMRCA(bamm_tree,bamm_tree$tip.label),brlen=NA,regime="above") # set the root node as above
 regimes <- rbind(regimes,mrca_node) %>% arrange(node) # add root
 
@@ -988,9 +997,9 @@ branch_cols <- plyr::mapvalues(regimes$regime[node_tree$edge[,2]],c("above","bel
 
 ### Assess trait evolution using the rate regimes
 on_reg <- regimes[1:length(node_tree$tip.label),] %>% mutate(genus = node_tree$tip.label) %>% # pull out tips
-left_join(.,(ON %>% select(genus,on,group)),by="genus") %>% # add in trait data
-rename(rate = "brlen") %>% # recode for geiger
-select(genus,on,regime,rate,group)
+    left_join(.,(ON %>% select(genus,on,group)),by="genus") %>% # add in trait data
+    rename(rate = "brlen") %>% # recode for geiger
+    select(genus,on,regime,rate,group)
 
 # plot panels for figure:Diversity
 size <- 0.8
@@ -1041,10 +1050,10 @@ invisible(dev.off())
 ```{r BM-model-comparison}
 # set up the data frame to compare models
 ouwie_on_reg <- on_reg[sample(nrow(on_reg)),] %>% # shuffle the dataset
-group_by(genus) %>% slice(1L) %>% ungroup() %>% # choose one representative per genus
-mutate(species = genus,discrete = regime,continuous = log10(on)) %>% #transform the data
-select(species,discrete,continuous) %>% 
-as.data.frame()
+    group_by(genus) %>% slice(1L) %>% ungroup() %>% # choose one representative per genus
+    mutate(species = genus,discrete = regime,continuous = log10(on)) %>% #transform the data
+    select(species,discrete,continuous) %>% 
+    as.data.frame()
 
 ### Compare BM models of evolution with and without regimes
 BMS <- OUwie(node_tree,ouwie_on_reg,model="BMS",simmap.tree=FALSE,diagn=FALSE,root.station=F) #rates per regime
@@ -1056,18 +1065,20 @@ We tested whether a BM model of evolution that incorporates the binary state (va
 ## Comparing rates of trait diversification
 
 ```{r BAMM-egg-setup}
+#set.seed(12345)  # set seed for egg BAMM
+
 tree <- genus_mcc_tree
 trait_of_interest <- "vol"
 dat_of_interest <- egg_database
 dat <- dat_of_interest[sample(nrow(dat_of_interest)),] %>% # shuffle the dataset
-mutate(raw_trait = eval(parse(text = trait_of_interest))) %>%  # pull out genus and trait
-filter(!(is.na(raw_trait))) %>% select(genus,raw_trait) %>% # remove missing data
-group_by(genus) %>% summarize(mean_trait = mean(raw_trait)) %>% # calculate mean per genus
-mutate(trait = log10(mean_trait)) # transform the data
+    mutate(raw_trait = eval(parse(text = trait_of_interest))) %>%  # pull out genus and trait
+    filter(!(is.na(raw_trait))) %>% select(genus,raw_trait) %>% # remove missing data
+    group_by(genus) %>% summarize(mean_trait = mean(raw_trait)) %>% # calculate mean per genus
+    mutate(trait = log10(mean_trait)) # transform the data
 
 bmm_red <- dat %>% mutate(taxa = genus) %>%
-filter(genus %in% tree$tip.label) %>%
-select(genus,trait)
+    filter(genus %in% tree$tip.label) %>%
+    select(genus,trait)
 bmm <- drop.tip(tree,setdiff(tree$tip.label,bmm_red$genus))
 
 #write.table(bmm_red,file="egg_bamm_trait.txt",sep="\t",row.names=F,col.names=F,quote=F)
@@ -1092,7 +1103,7 @@ bmm <- drop.tip(tree,setdiff(tree$tip.label,bmm_red$genus))
 ```
 
 ```{r BAMM-egg-read}
-egg_mcmcout <- read.csv("analysis/BAMM_results_June2020/egg_bamm_mcmc_out.txt", header=T)
+egg_mcmcout <- read.csv("analysis/BAMM_results_Jan2021/egg_bamm_mcmc_out.txt", header=T)
 
 egg_bi <- seq(0.01,0.99,by=0.001)
 egg_es_logl <- sapply(egg_bi,function(x){effectiveSize(egg_mcmcout[(x * nrow(egg_mcmcout)):nrow(egg_mcmcout),]$logLik)})
@@ -1103,8 +1114,8 @@ egg_postburn <- egg_mcmcout[egg_burnstart:nrow(egg_mcmcout), ]
 egg_es_nshifts <- effectiveSize(egg_postburn$N_shifts)
 egg_es_logl <- effectiveSize(egg_postburn$logLik)
 
-egg_bamm_tree <- ladderize(read.tree(file="analysis/BAMM_results_June2020/egg_bamm_tree.tre"))
-egg_edata <- getEventData(egg_bamm_tree, eventdata = paste("analysis/BAMM_results_June2020/egg_bamm_event_data.txt",sep=""), burnin=egg_burnin, type="trait")
+egg_bamm_tree <- ladderize(read.tree(file="analysis/BAMM_results_Jan2021/egg_bamm_tree.tre"))
+egg_edata <- getEventData(egg_bamm_tree, eventdata = paste("analysis/BAMM_results_Jan2021/egg_bamm_event_data.txt",sep=""), burnin=egg_burnin, type="trait")
 ```
 
 ```{r BAMM-egg-plot, include=TRUE, fig.cap="**Best rate shift configuration from BAMM trait diversification analysis on egg volume.** Purple = low rate of evolution, yellow = high rate of evolution.", fig.width=5, fig.height=10}
@@ -1117,28 +1128,28 @@ egg_brlen <- getMeanBranchLengthTree(egg_edata)
 egg_regimes <- data.frame(node=egg_brlen$phy$edge[,2],brlen=egg_brlen$phy$edge.length)
 
 egg_reg <- egg_regimes[1:length(egg_bamm_tree$tip.label),] %>% mutate(genus = egg_bamm_tree$tip.label) %>% # pull out tips
-left_join(.,(egg_database %>% select(genus,vol,group)),by="genus") %>% # add in trait data
-rename(egg_rate = "brlen") %>% # recode for geiger
-select(genus,vol,egg_rate) %>% na.omit()
+    left_join(.,(egg_database %>% select(genus,vol,group)),by="genus") %>% # add in trait data
+    rename(egg_rate = "brlen") %>% # recode for geiger
+    select(genus,vol,egg_rate) %>% na.omit()
 
 on_egg_reg <- on_reg[sample(nrow(on_reg)),] %>%
-group_by(genus) %>%
-slice(1L) %>%
-left_join(.,egg_reg[sample(nrow(egg_reg)),] %>%
+    group_by(genus) %>%
+    slice(1L) %>%
+    left_join(.,egg_reg[sample(nrow(egg_reg)),] %>%
     group_by(genus) %>%
     slice(1L),by="genus")
 
 ggplot(on_egg_reg,aes(x = rate, y = egg_rate, color= group)) + geom_point() +
-scale_color_manual(values = mrk) +
-scale_x_log10(label=scientific_10) +
-scale_y_log10(label=scientific_10) +
-theme(legend.position = "none") +
-xlab("rate of ovariole number diversification") +
-ylab("rate of egg volume diversification") +
-geom_vline(xintercept=1e-04,linetype="dashed")
+    scale_color_manual(values = mrk) +
+    scale_x_log10(label=scientific_10) +
+    scale_y_log10(label=scientific_10) +
+    theme(legend.position = "none") +
+    xlab("rate of ovariole number diversification") +
+    ylab("rate of egg volume diversification") +
+    geom_vline(xintercept=1e-04,linetype="dashed")
 ```
 
-We assessed the rate of egg volume diversification across insects using the same method of assessing rate heterogeneity as described in Section \ref{sec:BAMM} (Fig. \ref{fig:BAMM-egg-plot}). This analysis converged in $20*10^8$ generations (the effective size for the number of shifts and log-likelihood were >200, `r round(egg_es_nshifts,2)` and `r round(egg_es_logl,2)` respectively). We compared the correlation between the rates of trait diversification for ovariole number and egg volume by matching the mean rate predicted for each insect genus (the tips of the phylogeny from the BAMM analyses, Fig. \ref{fig:combine-rates}).
+We assessed the rate of egg volume diversification across insects using the same method of assessing rate heterogeneity as described in Section \ref{sec:BAMM} (Fig. \ref{fig:BAMM-egg-plot}). This analysis converged in $7*10^9$ generations (the effective size for the number of shifts and log-likelihood were >200, `r round(egg_es_nshifts,2)` and `r round(egg_es_logl,2)` respectively). We compared the correlation between the rates of trait diversification for ovariole number and egg volume by matching the mean rate predicted for each insect genus (the tips of the phylogeny from the BAMM analyses, Fig. \ref{fig:combine-rates}).
 
 
 \pagebreak

@@ -4,7 +4,7 @@ library(OUwie)
 library(corHMM)
 library(parallel)
 library(geiger)
-source("analysis/get_ovariole_number_data")
+source("analysis/get_ovariole_number_data.R")
 g_trees <- genus_trees[1:100] # select 100 trees from the posterior distribution
 downsample_factor <- 1 # do not downsample the data
 fam_count_threshold <- 1 # use all families
@@ -114,8 +114,8 @@ run_model_comparison <- function(tree) {
 
 	# Extract estimated tip states
 	est_tips <- pp$tip.states %>% as.data.frame() %>%  
-				mutate(discrete = ifelse(`1` == pmax(`1`,`2`,`3`),1,
-						ifelse(`2` == pmax(`1`,`2`,`3`),2,3)),
+				mutate(discrete = ifelse(V1 == pmax(V1,V2,V3),1,
+						ifelse(V2 == pmax(V1,V2,V3),2,3)),
 						species = pp$phy$tip.label) %>% 
 				select(species,discrete)
 

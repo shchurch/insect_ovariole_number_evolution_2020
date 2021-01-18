@@ -1,0 +1,80 @@
+Command line: ./bamm -c egg_bamm.config
+Git commit id: ab1b69be13e9841d9e103170d0f61e4324f78676
+Random seed: 1610826720
+Start time: Sat Jan 16 14:52:00 2021
+
+Current parameter settings:
+       acceptanceInfoFileName    egg_bamm_acceptance_info.txt
+          acceptanceResetFreq    1000
+                     autotune    0
+                     betaInit    0.5
+                betaInitPrior    85.6782325910648
+            betaInitRootPrior    -1.0
+      betaIsTimeVariablePrior    1
+                  betaOutfile    egg_bamm_beta_rates.txt
+                betaShiftInit    0
+               betaShiftPrior    0.00240301185122125
+           betaShiftRootPrior    -1.0
+         branchRatesWriteFreq    0
+            chainSwapFileName    egg_bamm_chain_swap.txt
+             checkUltrametric    1
+                       deltaT    0.1
+              eventDataInfile    event_data_in.txt
+             eventDataOutfile    egg_bamm_event_data.txt
+           eventDataWriteFreq    1000000
+       expectedNumberOfShifts    10
+fastSimulatePriorExperimental    0
+     fastSimulatePrior_BurnIn    0.05
+fastSimulatePrior_Generations    5000000
+ fastSimulatePrior_SampleFreq    50
+          initialNumberEvents    0
+              initializeModel    1
+                loadEventData    0
+         localGlobalMoveRatio    10.0
+              maxNumberEvents    5000
+                  mcmcOutfile    egg_bamm_mcmc_out.txt
+                mcmcWriteFreq    50000
+                    modeltype    trait
+             nodeStateOutfile    egg_bamm_node_state.txt
+           nodeStateWriteFreq    0
+            numberOccurrences    0
+               numberOfChains    4
+          numberOfGenerations    2000000000
+              observationTime    -1
+                      outName    egg_bamm
+         outputAcceptanceInfo    0
+                    overwrite    1
+             poissonRatePrior    0.1
+         preservationRateInit    0
+        preservationRatePrior    1.0
+                    printFreq    1000000
+          priorOutputFileName    egg_bamm_prior_probs.txt
+ priorSim_IntervalGenerations    5000
+              runInfoFilename    egg_bamm_run_info.txt
+                      runMCMC    1
+          sampleFromPriorOnly    0
+                         seed    -1
+          simulatePriorShifts    0
+                   swapPeriod    1000
+                traitPriorMax    0
+                traitPriorMin    0
+                    traitfile    egg_bamm_trait.txt
+                     treefile    egg_bamm_tree.tre
+          updateBetaInitScale    1
+         updateBetaShiftScale    1
+     updateEventLocationScale    0.05
+         updateEventRateScale    4.0
+         updateNodeStateScale    1
+  updatePreservationRateScale    1.0
+              updateRateBeta0    1
+          updateRateBetaShift    1
+       updateRateBetaTimeMode    0
+        updateRateEventNumber    1
+updateRateEventNumberForBranch    0.0
+      updateRateEventPosition    1
+          updateRateEventRate    1
+          updateRateNodeState    25
+   updateRatePreservationRate    -1
+useObservedMinMaxAsTraitPriors    1
+   validateEventConfiguration    0
+   writeMeanBranchLengthTrees    0

@@ -4,8 +4,9 @@ library(OUwie)
 library(corHMM)
 library(parallel)
 library(geiger)
-source("analysis/get_ovariole_number_data")
-egg_database <- read.delim("analysis/datafiles/egg_database_final_values_July17.tsv",header=T,stringsAsFactors=F)
+set.seed(12345)
+source("analysis/get_ovariole_number_data.R")
+egg_database <- read.delim("analysis/datafiles/egg_database_final_values_July2019.tsv",header=T,stringsAsFactors=F)
 
 ### These commands are used to estimate the evolutionary shifts in ovary type 
 # read in table of taxonomic groups, labeled by ovary type, as recorded in Buning 1994
@@ -66,6 +67,8 @@ pp_pruned <- drop.tip(tree,setdiff(tree$tip.label,new_tree_dataset$species))
 
 # Reconstruct ancestral ovary type (with missing data), Equal Rates model
 pp <- rayDISC(pp_pruned,na.omit(as.data.frame(new_tree_dataset[,c(1,2)])),model="ER",node.states="marginal")
+
+save.image("reconstruct_ancestral_ovary_morphology_type.RData")
 
 
 
