@@ -1,5 +1,5 @@
 ---
-title: Repeated loss of variation in insect ovary morphology highlights the role of developmental constraint in life-history evolution - Supplementary Methods
+title: Repeated loss of variation in insect ovary morphology highlights the role of development in life-history evolution - Supplementary Methods
 author: 
     - Samuel H. Church^1^\*, 
     - Bruno A. S. De Medeiros^1,2^, 
@@ -82,14 +82,42 @@ For each search term, we evaluated all publications in the first page of results
 
 Ovariole number was recorded as either an average with deviations, a range, or a single total value. When multiple types of data were available from a single publication, we recorded only a single type, with priority given to averages over ranges, and to both over single total values. Ovariole number was recorded as the total number of ovarioles per female, summing over both the left and right adult ovaries. When authors reported ovariole number from a single ovary, the total value was calculated by doubling the reported value. When authors described differences between the two ovaries, this information was recorded in an additional notes column.
 
-Using this approach, we gathered `r nrow(raw_ON)` records for ovariole number from 460 publications. A full list of publications is provided in the supplementary file 'ovariole_number_bibliography.pdf'. We matched the scientific names to additional taxonomic information using the software TaxReformer[@TaxReformer] and found additional taxonomic data for `r nrow(matched)` of the `r nrow(raw_ON)` records. We verified that TaxReformer had found a valid match by comparing the originally recorded taxonomic order to the order populated by online databases, and removed `r nrow(raw_ON %>% filter(problem == "taxonomy"))` taxonomic records for which these values did not match. For all subsequent analyses, we also excluded observations made in non-reproductive individuals from eusocial species (workers), as well as two observations which represented significant outliers and could not be validated using additional sources or figures[@su2015testicular;@hernandez2017biology].
+For records of ovariole number that reported intraspecific variation in ovariole number, we calculated the percent difference as follows: if ovariole number was reported as a range, percent difference was calculated as the $100 * ((max - min) / median)$; if ovariole number was reported as an average with deviations, percent difference was calculated as $100 * ((2 * deviation) / mean)$. When independent observations of ovariole number for a given species were available across multiple published records, we calculated the percent difference as the $100 * ((max - min) / median)$ (Fig. \ref{fig:intraspecific-variation}).
 
+Using this approach, we gathered `r nrow(raw_ON)` records for ovariole number from `r raw_ON %>% distinct(publication) %>% nrow()` publications. A full list of publications is provided in the supplementary file 'ovariole_number_bibliography.pdf'. We matched the scientific names to additional taxonomic information using the software TaxReformer[@TaxReformer] and found additional taxonomic data for `r nrow(matched)` of the `r nrow(raw_ON)` records. We verified that TaxReformer had found a valid match by comparing the originally recorded taxonomic order to the order populated by online databases, and removed `r nrow(raw_ON %>% filter(problem == "taxonomy"))` taxonomic records for which these values did not match. For all subsequent analyses, we also excluded observations made in non-reproductive individuals from eusocial species (workers), as well as two observations which represented significant outliers and could not be validated using additional sources or figures[@su2015testicular;@hernandez2017biology].
+
+```{r intraspecific-variation, fig.cap="**Intraspecific variation in ovariole number.**", fig.width=7.5, fig.height=3, include=TRUE}
+# calculate the percent difference reported for each especies
+percdiff_within_record <- ON %>% filter(!is.na(deviation_on)) %>% 
+    filter(!is.na(species)) %>% #check that species name is present
+    mutate(percdiff = ifelse(!is.na(deviation_on),100*((2*deviation_on)/mean_on), #if ovariole number is recorded as an average and deviation
+        ifelse(!is.na(median_on),100*((maximum_on - minimum_on)/median_on),NA))) %>% #if it is recorded as a range
+    filter(!is.na(percdiff) & percdiff>0)
+
+# get the names of species that have more than one description
+ON_name_count <- ON %>% 
+    filter(species != "") %>% #check that species name is present
+    count(name) %>% 
+    filter(n > 1) 
+
+percdiff_across_record <- ON %>% 
+    filter(name %in% ON_name_count$name) %>% #get records for multiple species
+    group_by(name) %>%  
+    summarize(max_on = max(on), min_on = min(on),genus=genus) %>%
+    ungroup() %>%
+    mutate(percdiff = 100*((max_on - min_on)/(min_on + ((max_on - min_on)/2)))) %>% #calculated percent difference
+    filter(!is.na(percdiff) & percdiff>0)
+
+pd1 <- ggplot(percdiff_within_record,aes(x=percdiff)) + geom_histogram(bins=25) + scale_x_log10() + ggtitle("reported variation within observation") + xlab("percent difference")
+pd2 <- ggplot(percdiff_across_record,aes(x=percdiff)) + geom_histogram(bins=25) + scale_x_log10() + ggtitle("variation across repeated observations") + xlab("percent difference")
+grid.arrange(pd1,pd2,ncol=2)
+```
 
 # Phylogenetic trees {#sec:trees}
 
 The analyses herein were performed using the insect phylogeny published in Church et al, 2019[@church2019insect], unless otherwise specified. This phylogeny was constructed by combining ribosomal genetic data from `r length(tree$tip.label)` insect genera, published originally in the SILVA database[@Yilmaz2014], with constrained, time-calibrated nodes for each insect order, published originally in Misof et al, 2014[@Misof:2014jv]. This phylogeny is enriched for insect genera with records in the egg trait dataset, and also has considerable overlap with the genera included in this ovariole number dataset (`r ON %>% filter(genus %in% tree$tip.label) %>% distinct(genus) %>% nrow()` genera). For generalized least squares analyses and trait model comparisons, analyses were performed over a posterior distribution of trees associated with this published phylogeny[@church2019insect].
 
-Analyses of insect family-level ovariole number, egg size, and body size were performed using the insect phylogeny published in Rainford et. al, 2014[@rainford2014phylogenetic].
+For regressions involving body size data that were reported as insect family-level averages, we used the insect phylogeny published in Rainford et. al, 2014[@rainford2014phylogenetic].
 
 Analyses of Drosophilidae ovariole number, egg size, and body size were performed using a phylogeny newly assembled for this study. Published genetic data for 317 Drosophilidae species were retrieved from NCBI in June of 2019[@katoh2017multiple;@magnacca2015rapid;@lapoint2014phylogenetics;@o2011phylogenetic;@lapoint2011phylogenetic;@bonacum2005phylogeny;@o2004phylogenetic;@lapoint2013diversification;@baker1997multiple]. These data encompassed 41 gene regions including mitochondrial, nuclear, and ribosomal genes. When multiple sequences for a gene region were available from the same species, the one with the least amount of missing data was selected. Each gene region was aligned using the program MAFFT[@Katoh2013], model auto selected). Alignments were concatenated and trimmed to 3% occupancy across species using the program phyutlity[@smith2008phyutility]. Documentation including accession numbers, sequence files, and alignments are available in the supplementary directory 'https://github.com/shchurch/insect_ovariole_number_evolution_2020/phylogeny/Drosophilidae_sequences/'.
 
@@ -101,13 +129,13 @@ Phylogenetic estimation of the Drosophilidae data were performed using RAxML (mo
 
 ## Combining datasets {#sec:combining}
 
-We combined the data we collected on total ovariole number with existing datasets of egg size and shape[@church2019dataset], insect lifetime fecundity and dry adult body mass[@Gilbert2007], average adult body length per insect family[@rainford2016phylogenetic], and several lineage-specific measures of adult body size[@iwata1966large;@Iwata1966a;@waloff1954number;@starmer2003phylogenetic;@reinhardt2005low].
+We combined the data we collected on total ovariole number with existing datasets of egg size and shape[@church2019dataset], insect lifetime fecundity and dry adult body mass[@Gilbert2007;@gilbert2010parental;@gilbert2011insect], average adult body length per insect family[@rainford2016phylogenetic], and several lineage-specific measures of adult body size[@iwata1966large;@Iwata1966a;@waloff1954number;@starmer2003phylogenetic;@reinhardt2005low].
 
-Ovariole number and egg size[@church2019insect] data were combined by matching records at the species level (Fig 2a). When multiple records existed for a given species, the dataset was randomly shuffled and a single matching record was selected. This variation across records for the same species was accounted for in regressions by reshuffling and matching records at each iteration of the analysis.  We also matched records at the genus level following the same reshuffling method, which allowed us to test whether results were robust with a larger sample size when an exact species match was not available (Fig. \ref{fig:PGLS-egg-ON-genus}).
+Ovariole number and egg size[@church2019insect] data were combined by matching records across datasets for the same insect species (Fig 2a). When multiple records existed for a given species, the dataset was randomly shuffled and a single matching record was selected. This variation across records for the same species was accounted for in regressions by reshuffling and matching records at each iteration of the analysis.  We also matched records for insects in the same genus following the same reshuffling method, which allowed us to test whether results were robust with a larger sample size when an exact species match was not available (Fig. \ref{fig:PGLS-egg-ON-genus}).
 
 Average adult body length per insect family[@rainford2016phylogenetic] was matched to the average ovariole number for the corresponding families (Fig. \ref{fig:PGLS-family-length}). The Rainford et al, 2016[@rainford2016phylogenetic] dataset contains a small number of average adult body lengths at the order level (e.g. Strepsiptera), which were matched to their equivalent group in the ovariole number dataset. To test the effect of uncertainty in the estimated average ovariole number on our results, the dataset for each family was downsampled by half at each iteration of the regression analysis.
 
-Ovariole number, egg volume, lifetime fecundity, and adult body mass[@Gilbert2007] were combined by matching records at the species level and genus level, using the same method as described above (Figs. 2b, 3, and \ref{fig:PGLS-Gilbert-name}). We excluded one value from this dataset which appeared to include a typographical error for lifetime fecundity (Hymenoptera: Trichogrammatidae, lifetime fecundity recorded as 0.1[@Gilbert2007]).
+Ovariole number, egg volume, lifetime fecundity, and adult body mass[@Gilbert2007;@gilbert2010parental;@gilbert2011insect] were combined by matching records at the species level and genus level, using the same method as described above (Figs. 2b, 3, and \ref{fig:PGLS-Gilbert-name}). We excluded one value from this dataset which appeared to include a typographical error for lifetime fecundity (Hymenoptera: Trichogrammatidae, lifetime fecundity recorded as 0.1[@Gilbert2007]).
 
 Several lineage-specific measurements for body size were matched to the ovariole number and egg size datasets, as follows: Drosophilidae thorax length[@starmer2003phylogenetic] was matched at the species level (Fig. 2c), Orthoptera body length[@waloff1954number] was matched at the genus level (Fig. 2d), Hymenoptera mesosoma width[@Iwata1966a] was matched at the genus level, and Curculonoidea elytra length[@iwata1966large] was matched at the genus level (Fig. \ref{fig:PGLS-Coleoptera-Hymenoptera}).
 
@@ -169,6 +197,22 @@ run_plotting_pgls(egg_ON_genus_pgls,tree,"egg_ON_genus") +
     ylab(bquote('egg volume,'~mm^3~','~log[10]))
 ```
 
+```{r PGLS-egg-ON-genus-noneusocial, fig.cap="**Egg volume vs ovariole number, matching records at the genus level, excluding records from families with eusocial insects.**", fig.width=7.5, fig.height=5, include=TRUE}
+### PGLS on vs egg volume by insect genus, excluding eusocial
+eusocial_family <- ON %>% filter(grepl("queen",condition)) %>% pull(family) %>% unique()
+
+egg_ON_genus_noneusocial_pgls <- egg_ON_genus %>% 
+    filter(!(family %in% eusocial_family)) %>% 
+    select(genus,logvol,logon,group) %>% 
+    rename(rank = genus, trait1 = logon, trait2 = logvol) 
+
+pgls_results_egg_ON_genus_noneusocial <- run_all_taxa_pgls(egg_ON_genus_noneusocial_pgls,tree)
+
+run_plotting_pgls(egg_ON_genus_noneusocial_pgls,tree,"egg_ON_genus_noneusocial") +
+    xlab(bquote('ovariole number,'~log[10])) +
+    ylab(bquote('egg volume,'~mm^3~','~log[10]))
+```
+
 ```{r PGLS-egg-ON-weight-genus}
 ### Gilbert egg vs ON, ind body weight genus pgls
 gilbert_genus_pgls <- egg_ON_gilbert_genus %>% 
@@ -214,13 +258,13 @@ run_plotting_resid_pgls(body_egg_ON_family_pgls,fam_tree,"body_egg_ON_family") +
 
 We ran each Phylogenetic Generalized Least Squares (PGLS) regression over the Maximum Clade Credibilty (MCC) tree. For each regression, we also repeated each PGLS analysis 1000 times, accounting for phylogenetic and phenotypic uncertainty, using the R packages ape (version `r packageVersion('ape')`)[@paradis2004ape] and nlme (version `r packageVersion('nlme')`)[@pinheiro2014r]. In these analyses we used a Brownian Motion based covariance matrix for traits. 
 
-For regressions at the species and genus level, we reshuffled and matched records at each iteration to account for variation across records for the same taxon. For regressions at the family level we recalculated the average ovariole number per insect family, downsampling the representation for each family by half. No posterior distribution was available with the previously published family level phylogeny[@rainford2014phylogenetic].
+For regressions using data matched across species or genera, we reshuffled and matched records at each iteration to account for variation across records for the same taxon. For regressions on family-level average data, we recalculated the average ovariole number per insect family, downsampling the representation for each family by half. No posterior distribution was available with the previously published family level phylogeny[@rainford2014phylogenetic].
 
-To account for body size, we calculated the phylogenetic residuals[@revell2010phylogenetic] of each trait to body size, and then compared the evolution of these residuals using a PGLS regression.
+To account for body size, we calculated the phylogenetic residuals[@revell2009size] of each trait to body size, and then compared the evolution of these residuals using a PGLS regression.
 
 For regressions of egg size and ovariole number when accounting for adult body size, we compared the results of our regression analyses to distributions estimated using simulated data under alternative hypotheses. We fit a Brownian motion model to the phylogenetic residuals of egg size and body size (R package geiger, version `r packageVersion('geiger')`)[@harmon2007geiger], and then used the parameters of this fitted model to simulate new datasets (R package phylolm, version `r packageVersion('phylolm')`)[@tung2014linear]. We performed this resimulation using the datasets of egg size and body length at the family level, and egg size and body mass at the genus level. We simulated 1000 datasets each under two hypotheses: no correlation (slope=0) and a strong negative correlation (slope=-1). We performed the regressions as described above and compared the distribution of p-values and slopes to values from regressions on observed data.
 
-```{r simulated, fig.cap="**Using simulated data to test alternative hypotheses of evolutionary relationships.** Top row, distributions of p-values over 1000 replicate regressions, dashed black line indicates threshold of 0.01. Bottom row, distribution of estimated slopes between egg size and ovariole number, dashed lines indicate 95% interval of simulated distributions. Left, comparing egg size and ovariole number, accounting for body length at the family level. Right, comparing egg size and ovariole number, accounting for body mass at the genus level. Red=observed values, gray=simulated with no correlation, black=simulated with a -1:1 correlation. n=1000 regressions.", fig.width=7.5, fig.height=5, include=TRUE}
+```{r simulated, fig.cap="**Using simulated data to test alternative hypotheses of evolutionary relationships.** Top row, distributions of p-values over 1000 replicate regressions, dashed black line indicates threshold of 0.01. Bottom row, distribution of estimated slopes between egg size and ovariole number, dashed lines indicate 95% interval of simulated distributions. Left, comparing egg size and ovariole number, accounting for body length at the family level. Right, comparing egg size and ovariole number, accounting for body mass at the genus level. The slope of regressions on observed egg size and ovariole number (red) is more negative than we would expect to observe by chance, as assessed by comparing to data simulated with no evolutionary correlation (gray), but also not within the range that would be expected under an strong negative correlation (black). Red=observed values, gray=simulated with no correlation, black=simulated with a -1:1 correlation. n=1000 regressions.", fig.width=7.5, fig.height=5, include=TRUE}
 get_tstat <- function(sum,n) {
     tstat <- as.numeric(unname(sum[[n]]$coefficients[[2]]))
     return(tstat)
@@ -402,7 +446,7 @@ ylab(element_blank()) + ggtitle("Hymenoptera")
 grid.arrange(col1,hym1,ncol=2)
 ```
 
-```{r PGLS-body-plot, fig.cap="**Adult body size vs ovariole number.** Adult body mass compared at the genus level (left), and average adult body length compared at the family level (right).", fig.width=6, fig.height=3, include=TRUE}
+```{r PGLS-body-plot, fig.cap="**Adult body size vs ovariole number.** Adult body mass, matching records at the genus level (left), and family-level average adult body length (right).", fig.width=6, fig.height=3, include=TRUE}
 ### body length vs ON, family level
 ON_body_family_pgls <- body_egg_ON_full %>% 
     select(rank,logon,logbody,group) %>% 
@@ -526,18 +570,18 @@ egg_ON_pgls_analysis_names <- c("ovariole number vs egg volume",
     "ovariole number vs egg volume, residuals to body mass",
     "ovariole number vs egg volume, residuals to body length")
 
-egg_ON_taxonomic_levels <- c("species","genus","species","genus","family")
+egg_ON_taxonomic_levels <- c("species","genus","species","genus","family average")
 
 egg_ON_table <- as.data.frame(bind_rows(lapply(egg_ON_posterior_results,get_pgls_table))) %>% mutate(analysis = egg_ON_pgls_analysis_names,
-        "taxonomic level" = egg_ON_taxonomic_levels,
+        "data match" = egg_ON_taxonomic_levels,
         "slope" = paste(sprintf("%.3f",slope_min),sprintf("%.3f",slope_max),sep=sp),
         "MCC p-value" = gsub("0.000","<0.001",sprintf("%.3f",sapply(egg_ON_pgls_results,function(x){x$tTable[[8]]}))),
         "num. sig. / 1000" = pval_sig,
         "taxa" = taxa)
-knitr::kable(egg_ON_table %>% select(c("analysis","taxonomic level","slope","MCC p-value","num. sig. / 1000","taxa")),
+knitr::kable(egg_ON_table %>% select(c("analysis","data match","slope","MCC p-value","num. sig. / 1000","taxa")),
         "latex",
         align=rep('l', 6),
-        caption="Results of PGLS analysis of ovariole number and egg size across a posterior distribution", booktabs = T, linesep = "") %>% 
+        caption="Results of PGLS analysis of ovariole number and egg size across a posterior distribution. The 'data match' columns describes how observations were matched across datasets, e.g. matching records for the same species, genera, or using family-level averages.", booktabs = T, linesep = "") %>% 
     kableExtra::kable_styling(latex_options = "striped") %>%
     kableExtra::column_spec(1, width = "16em") %>%
     kableExtra::kable_styling(latex_options = "hold_position")  %>%
@@ -566,15 +610,15 @@ clade_pgls_analysis_names <- c("Drosophilidae ovariole number vs egg volume, res
 clade_taxonomic_levels <- c("species","genus","genus","genus")
 
 clade_table <- as.data.frame(bind_rows(lapply(clade_posterior_results,get_pgls_table))) %>% mutate(analysis = clade_pgls_analysis_names,
-        "taxonomic level" = clade_taxonomic_levels,
+        "data match" = clade_taxonomic_levels,
         "slope" = paste(sprintf("%.3f",slope_min),sprintf("%.3f",slope_max),sep=sp),
         "MCC p-value" = gsub("0.000","<0.001",sprintf("%.3f",sapply(clade_pgls_results,function(x){x$tTable[[8]]}))),
         "num. sig. / 1000" = pval_sig,
         "taxa" = taxa)
-knitr::kable(clade_table %>% select(c("analysis","taxonomic level","slope","MCC p-value","num. sig. / 1000","taxa")),
+knitr::kable(clade_table %>% select(c("analysis","data match","slope","MCC p-value","num. sig. / 1000","taxa")),
         "latex",
         align=rep('l', 6),
-        caption="Results of PGLS analysis of ovariole number and egg size across a posterior distribution", booktabs = T, linesep = "") %>% 
+        caption="Results of PGLS analysis of ovariole number and egg size across a posterior distribution.", booktabs = T, linesep = "") %>% 
     kableExtra::kable_styling(latex_options = "striped") %>%
     kableExtra::column_spec(1, width = "16em") %>%
     kableExtra::kable_styling(latex_options = "hold_position")  %>%
@@ -609,19 +653,19 @@ body_pgls_analysis_names <- c("ovariole number vs body length",
     "Curculionoidea ovariole number vs elytra length",
     "Hymenoptera ovariole number vs mesosoma width")
 
-body_taxonomic_levels <- c("species","genus","family","species","genus","genus","genus")
+body_taxonomic_levels <- c("species","genus","family average","species","genus","genus","genus")
 
 
 body_table <- as.data.frame(bind_rows(lapply(body_posterior_results,get_pgls_table))) %>% mutate(analysis = body_pgls_analysis_names,
-        "taxonomic level" = body_taxonomic_levels,
+        "data match" = body_taxonomic_levels,
         "slope" = paste(sprintf("%.3f",slope_min),sprintf("%.3f",slope_max),sep=sp),
         "MCC p-value" = gsub("0.000","<0.001",sprintf("%.3f",sapply(body_pgls_results,function(x){x$tTable[[8]]}))),
         "num. sig. / 1000" = pval_sig,
         "taxa" = taxa)
-knitr::kable(body_table %>% select(c("analysis","taxonomic level","slope","MCC p-value","num. sig. / 1000","taxa")),
+knitr::kable(body_table %>% select(c("analysis","data match","slope","MCC p-value","num. sig. / 1000","taxa")),
         "latex",
         align=rep('l', 6),
-        caption="Results of PGLS analysis of ovariole number and body size across a posterior distribution", booktabs = T, linesep = "") %>% 
+        caption="Results of PGLS analysis of ovariole number and body size across a posterior distribution.", booktabs = T, linesep = "") %>% 
     kableExtra::kable_styling(latex_options = "striped") %>%
     kableExtra::column_spec(1, width = "16em") %>%
     kableExtra::kable_styling(latex_options = "hold_position")  %>%
@@ -644,14 +688,14 @@ fecundity_pgls_analysis_names <- c("ovariole number vs lifetime fecundity",
 fecundity_taxonomic_levels <- c("species","genus")
 
 fecundity_table <- as.data.frame(bind_rows(lapply(fecundity_posterior_results,get_pgls_table))) %>% mutate(analysis = fecundity_pgls_analysis_names,
-        "taxonomic level" = fecundity_taxonomic_levels,
+        "data match" = fecundity_taxonomic_levels,
         "slope" = paste(sprintf("%.3f",slope_min),sprintf("%.3f",slope_max),sep=sp),
         "MCC p-value" = gsub("0.000","<0.001",sprintf("%.3f",sapply(fecundity_pgls_results,function(x){x$tTable[[8]]}))),
         "num. sig. / 1000" = pval_sig,
         "taxa" = taxa)
-knitr::kable(fecundity_table %>% select(c("analysis","taxonomic level","slope","MCC p-value","num. sig. / 1000","taxa")),
+knitr::kable(fecundity_table %>% select(c("analysis","data match","slope","MCC p-value","num. sig. / 1000","taxa")),
         "latex",
-        caption="Results of PGLS analysis of ovariole number and fecundity across a posterior distribution", booktabs = T, linesep = "") %>% 
+        caption="Results of PGLS analysis of ovariole number and fecundity across a posterior distribution.", booktabs = T, linesep = "") %>% 
     kableExtra::kable_styling(latex_options = "striped") %>%
     kableExtra::column_spec(1, width = "16em") %>%
     kableExtra::kable_styling(latex_options = "hold_position")  %>%
@@ -1150,7 +1194,6 @@ ggplot(on_egg_reg,aes(x = rate, y = egg_rate, color= group)) + geom_point() +
 ```
 
 We assessed the rate of egg volume diversification across insects using the same method of assessing rate heterogeneity as described in Section \ref{sec:BAMM} (Fig. \ref{fig:BAMM-egg-plot}). This analysis converged in $7*10^9$ generations (the effective size for the number of shifts and log-likelihood were >200, `r round(egg_es_nshifts,2)` and `r round(egg_es_logl,2)` respectively). We compared the correlation between the rates of trait diversification for ovariole number and egg volume by matching the mean rate predicted for each insect genus (the tips of the phylogeny from the BAMM analyses, Fig. \ref{fig:combine-rates}).
-
 
 \pagebreak
 # References

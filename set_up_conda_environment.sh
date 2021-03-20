@@ -20,6 +20,7 @@ install.packages("ggplot2")
 install.packages("BAMMtools")
 install.packages("coda")
 install.packages("OUwie")
+# on cluster, outside of R
 #conda install -c conda-forge r-rmpfr
 #conda install -c anaconda gmp
 install.packages("corHMM")
