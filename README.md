@@ -1,5 +1,5 @@
 # insect_ovariole_number_evolution_2020
-Data and code to reproduce the analyses and figures in the manuscript: "Repeated loss of variation in insect ovary morphology highlights the role of developmental constraint in ovariole number evolution (submitted)"
+Data and code to reproduce the analyses and figures in the manuscript: **"Repeated loss of variation in insect ovary morphology highlights the role of development in life-history evolution"** published in Proceedings of the Royal Society B, https://doi.org/10.1098/rspb.2021.0150 and BioRxiv, https://doi.org/10.1101/2020.07.07.191940.
 
 ### manuscript_supplement.Rmd
 
